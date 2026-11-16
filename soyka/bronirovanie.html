@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бронирование стола — Сойка</title>
+<meta name="description" content="Забронировать стол в ресторане «Сойка», Екатеринбург, ул. 8 Марта, 6.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+<style>
+/* окно брони — их система Hostme (та же, что у них на сайте, тот же номер ресторана 31492) */
+.book-box{margin:clamp(32px,5vh,48px) auto 0;max-width:560px;min-height:340px;display:flex;justify-content:center}
+.book-box hostme-widget-reservation{display:block}
+.book-after{margin-top:clamp(28px,4vh,40px)}
+.book-call{margin-top:22px;text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-size:15px;color:rgba(255,255,255,.6)}
+.book-call a{color:#fff;border-bottom:1px solid rgba(255,255,255,.45)}
+</style>
+</head>
+<body data-page="book">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">ご予約</span>
+    <h1 data-i18n="h1">Бронирование стола</h1>
+  </div>
+  <p class="lead" data-i18n="lead">Выберите дату и время для посещения ресторана и Вы увидите все актуальные варианты для бронирования.</p>
+
+  <div class="wrap">
+    <div class="book-box">
+      <!-- их виджет бронирования: заявки уходят прямо в их систему Hostme -->
+      <script type="module" src="https://tables.hostmeapp.com/widgets/reservation/hostme-widget-reservation.es.js" async></script>
+      <hostme-widget-reservation data-hostme-id="31492" data-widget-type="vertical" data-time-select="step" data-adaptive-layout="true"
+        data-allow-fast-booking="true" data-preferred-guests="2"></hostme-widget-reservation>
+    </div>
+    <div class="lead book-after">
+      <p data-i18n="p1">После заполнения на почту придёт письмо о том, что ваша бронь ожидает подтверждения. Как только мы подтвердим бронь — вам придёт письмо о подтверждении брони.</p>
+      <p style="margin-top:14px" data-i18n="p2">Если бронь по каким-то причинам окажется невозможной — мы обязательно свяжемся с вами.</p>
+    </div>
+    <p class="book-call"><a href="tel:+73433284284">+7 (343) 328-42-84</a></p>
+  </div>
+</main>
+
+<script>
+/* Переводы (русский — в самой странице). ⚠️ Японский — проверить у носителя. Окно брони Hostme — их, на своём языке */
+window.PAGE_I18N = {
+  en: { title: 'Book a table — Soyka', h1: 'Book a table',
+        lead: 'Choose the date and time of your visit and you will see all available booking options.',
+        p1: 'After you fill in the form, you will receive an email saying that your booking is awaiting confirmation. As soon as we confirm it, you will receive a confirmation email.',
+        p2: 'If the booking turns out to be impossible for some reason, we will definitely contact you.' },
+  ja: { title: 'ご予約 — ソイカ', h1: 'お席のご予約',
+        lead: 'ご来店の日付と時間をお選びいただくと、ご予約可能な候補がすべて表示されます。',
+        p1: 'ご入力後、ご予約が確認待ちである旨のメールが届きます。ご予約を確定しましたら、確定のメールをお送りします。',
+        p2: '何らかの理由でご予約をお受けできない場合は、必ずご連絡いたします。' }
+};
+</script>
+<script src="inner.js"></script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Обратная связь — Сойка</title>
+<meta name="description" content="Оцените визит в ресторан «Сойка» и напишите пожелания управляющему.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+</head>
+<body data-page="feedback">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">お問い合わせ</span>
+    <h1 data-i18n="h1">Обратная связь</h1>
+  </div>
+  <p class="lead" data-i18n="lead">Поставьте нам оценку напишите все ваши пожелания или замечания. Они будут отправлены напрямую управляющему. Мы свяжемся в случае, если это необходимо и вы оставите ваши данные. Спасибо!</p>
+
+  <div class="wrap">
+    <!-- поля — те же, что в их форме. ⚠️ Набросок: пока никуда не отправляется -->
+    <form class="form" novalidate>
+      <label class="field"><input type="text" name="name" placeholder="Ваше имя" data-i18n-ph="name" autocomplete="name"></label>
+      <div class="phone"><b>+7</b><input type="tel" name="phone" placeholder="(000) 000-00-00" autocomplete="tel-national" aria-label="Телефон" data-i18n-aria="phone"></div>
+      <div class="field">
+        <span data-i18n="rate">Оцените ваш визит от 1 до 5, где 5 - лучшая оценка</span>
+        <div class="range"><small>1</small><input type="range" id="rate" name="rate" min="1" max="5" value="3"><small>5</small><output for="rate">3</output></div>
+      </div>
+      <label class="field"><span data-i18n="say">Напишите здесь все, что хотели бы нам сказать</span><textarea name="comment" placeholder="Ваш комментарий" data-i18n-ph="comment"></textarea></label>
+      <label class="check"><input type="checkbox" name="agree" required> <span data-i18n-html="agree"><a href="privacy.html">С правилами обработки данных</a> согласен</span></label>
+      <button class="btn" type="submit" data-i18n="send">Отправить</button>
+    </form>
+    <div class="form-done" role="status" data-i18n="done">Спасибо! Данные успешно отправлены.</div>
+  </div>
+</main>
+
+<script>
+/* Переводы (русский — в самой странице). ⚠️ Японский — проверить у носителя */
+window.PAGE_I18N = {
+  en: { title: 'Feedback — Soyka', h1: 'Feedback',
+        lead: 'Rate your visit and write any wishes or comments. They will be sent directly to the manager. We will get in touch if needed and if you leave your details. Thank you!',
+        name: 'Your name', phone: 'Phone', rate: 'Rate your visit from 1 to 5, where 5 is the best', say: 'Write here everything you’d like to tell us',
+        comment: 'Your comment', agree: 'I agree to the <a href="privacy.html">data processing rules</a>', send: 'Send', done: 'Thank you! Your message has been sent.' },
+  ja: { title: 'お問い合わせ — ソイカ', h1: 'お問い合わせ',
+        lead: 'ご来店の評価と、ご要望やご意見をお聞かせください。内容は店長に直接届きます。必要な場合、ご連絡先をいただければこちらからご連絡いたします。ありがとうございます！',
+        name: 'お名前', phone: '電話番号', rate: 'ご来店を1〜5で評価してください（5が最高）', say: 'お伝えしたいことを自由にお書きください',
+        comment: 'コメント', agree: '<a href="privacy.html">個人情報の取り扱いルール</a>に同意します', send: '送信', done: 'ありがとうございます！送信が完了しました。' }
+};
+</script>
+<script src="inner.js"></script>
+</body>
+</html>

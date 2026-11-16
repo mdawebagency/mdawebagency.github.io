@@ -1,0 +1,156 @@
+/* Общий стиль внутренних страниц v2 (меню, бронь, сертификат, карта, отзыв, вакансии, документы).
+   Цвета, шрифты, шапка и подвал — те же, что на главной (index.html) */
+@font-face{font-family:'Noir';src:url('fonts/NoirPro-Regular.woff') format('woff');font-weight:400;font-display:swap}
+
+:root{--navy:#1a2e53;--bg:#101d36;--red:#d94e43;--line:rgba(255,255,255,.2)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--bg);scrollbar-gutter:stable;scroll-behavior:smooth}
+body{background:var(--bg);color:#fff;font-family:'Noir',system-ui,sans-serif;overflow-x:hidden;min-height:100vh;display:flex;flex-direction:column}
+body.menu-open{overflow:hidden}
+a{color:inherit;text-decoration:none}
+.serif{font-family:'Noto Serif JP','Noto Serif',serif}
+
+/* ===== Шапка — как на главной, сразу синяя полупрозрачная ===== */
+.top{position:fixed;left:0;right:0;top:0;z-index:50;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
+  padding:14px clamp(16px,4vw,56px);font-size:12px;letter-spacing:.18em;text-transform:uppercase;
+  background:rgba(16,29,54,.82);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+.top-left{justify-self:start;display:flex;align-items:center;gap:clamp(14px,2.4vw,34px)}
+/* языки — как на главной: Noto Serif JP 14px, неактивные на 50% */
+.langs{display:flex;align-items:center;gap:8px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:14px;letter-spacing:-.01em;text-transform:none}
+.langs button{background:none;border:0;color:#fff;font:inherit;cursor:pointer;opacity:.5;padding:4px 0;transition:opacity .3s}
+.langs button:hover,.langs button.on{opacity:1}
+.langs i{font-style:normal;opacity:.35}
+[hidden]{display:none !important}
+.burger{display:flex;flex-direction:column;gap:6px;width:30px;padding:6px 0;background:none;border:0;cursor:pointer}
+.burger i{display:block;height:1px;background:#fff;transition:width .4s}
+.burger i:nth-child(2){width:70%}
+.burger:hover i:nth-child(2){width:100%}
+.top-logo{width:clamp(80px,8vw,110px);display:block}
+.top-logo img{width:100%;display:block;filter:brightness(0) invert(1)}
+.top-right{justify-self:end;display:flex;gap:clamp(14px,2.4vw,34px);align-items:center}
+.top-right a{position:relative;padding:4px 0}
+.top-right a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:#fff;transform:scaleX(0);transform-origin:right;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.top-right a:hover::after,.top-right a.on::after{transform:scaleX(1);transform-origin:left}
+.top-right .deliv{border:1px solid rgba(255,255,255,.6);padding:10px 18px;border-radius:999px;transition:border-color .35s,background .35s}
+.top-right .deliv::after{display:none}
+.top-right .deliv:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+@media (max-width:720px){
+  .top{font-size:10px;letter-spacing:.1em;padding:12px 14px;align-items:start}
+  .top-left{gap:10px;flex-direction:column;align-items:flex-start}   /* языки под тремя полосками — как на главной */
+  .langs{font-size:12px;gap:5px}
+  .top-logo{margin-top:-4px}
+  main{padding-top:130px}
+  .top-right .hide-m{display:none}
+  .top-logo{width:72px}
+  .top-right .deliv{padding:8px 12px}
+}
+
+/* ===== Выезжающее меню — как на главной ===== */
+.drawer{position:fixed;inset:0;z-index:70;visibility:hidden;pointer-events:none}
+.drawer.open{visibility:visible;pointer-events:auto}
+.drawer-shade{position:absolute;inset:0;background:rgba(0,0,0,.55);opacity:0;transition:opacity .4s}
+.drawer.open .drawer-shade{opacity:1}
+.drawer-panel{position:absolute;top:0;left:0;bottom:0;width:min(320px,86vw);background:var(--navy);
+  display:flex;flex-direction:column;justify-content:space-between;padding:70px 30px 28px;
+  transform:translateX(-100%);transition:transform .45s cubic-bezier(.7,0,.2,1);overflow-y:auto}
+.drawer.open .drawer-panel{transform:translateX(0)}
+.drawer-x{position:absolute;top:20px;right:22px;background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1;opacity:.8}
+.drawer-x:hover{opacity:1}
+.drawer-nav{display:flex;flex-direction:column;gap:14px}
+.drawer-nav a{font-size:18px;color:rgba(255,255,255,.82);transition:color .25s}
+.drawer-nav a:hover,.drawer-nav a.on{color:#fff}
+.drawer-info{margin-top:40px;font-size:12px;line-height:1.7;color:rgba(255,255,255,.85)}
+.drawer-info p+p{margin-top:12px}
+.drawer-icons{display:flex;gap:10px;margin-top:16px}
+.drawer-icons a{width:34px;height:34px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:opacity .25s}
+.drawer-icons a:hover{opacity:.8}
+.drawer-icons svg{width:17px;height:17px;fill:var(--navy)}
+
+/* ===== Содержимое страницы ===== */
+main{flex:1;padding:clamp(110px,16vh,150px) clamp(16px,4vw,56px) clamp(70px,10vh,110px);width:100%}
+.wrap{width:min(100%,860px);margin:0 auto}
+.wrap.wide{width:min(100%,1180px)}
+.sec-head{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400}
+.sec-head .jp{display:block;font-size:16px;line-height:1.7;letter-spacing:.08em}
+.sec-head h1,.sec-head h2{font-weight:400;font-size:clamp(22px,2vw,28px);line-height:1.5;letter-spacing:.06em;text-transform:uppercase;margin-top:6px}
+.lead{margin:clamp(24px,4vh,36px) auto 0;max-width:680px;text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;
+  font-size:clamp(16px,1.3vw,19px);line-height:1.75;color:rgba(255,255,255,.78)}
+.txt{font-family:'Noto Serif JP','Noto Serif',serif;font-size:16px;line-height:1.75;color:rgba(255,255,255,.78)}
+.txt p+p{margin-top:14px}
+.txt a,.lead a{color:#fff;border-bottom:1px solid rgba(255,255,255,.45);transition:border-color .3s}
+.txt a:hover,.lead a:hover{border-color:#fff}
+.block{margin-top:clamp(56px,9vh,90px)}
+.block .sec-head h2{font-size:clamp(18px,1.6vw,22px)}
+
+/* кнопки — тонкая рамка, без заливки (как «Доставка» в шапке) */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 30px;border:1px solid rgba(255,255,255,.6);border-radius:999px;
+  background:none;color:#fff;font-family:'Noto Serif JP','Noto Serif',serif;font-size:15px;letter-spacing:.04em;cursor:pointer;transition:border-color .3s,background .3s}
+.btn:hover{border-color:#fff;background:rgba(255,255,255,.12)}
+.btns{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;margin-top:clamp(28px,4vh,40px)}
+
+/* нумерованные правила: -1- -2- … как у них */
+.rules{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:clamp(32px,5vh,48px)}
+.rule{padding:26px 26px 28px;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012) 60%)}
+.rule b{display:block;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400;font-size:15px;letter-spacing:.12em;color:rgba(255,255,255,.55)}
+.rule p{margin-top:10px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:16px;line-height:1.65;color:rgba(255,255,255,.82)}
+@media (max-width:640px){.rules{grid-template-columns:1fr}}
+
+/* список вопросов — как «Вопросы и ответы» на главной */
+.faq-list{margin-top:clamp(28px,4vh,40px);border-top:1px solid var(--line)}
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 4px;background:none;border:0;cursor:pointer;
+  color:rgba(255,255,255,.85);text-align:left;font-family:'Noto Serif JP','Noto Serif',serif;font-size:clamp(16px,1.3vw,19px);line-height:1.5;transition:color .3s}
+.faq-q:hover{color:#fff}
+.faq-q i{position:relative;flex:0 0 16px;height:16px;transition:transform .45s cubic-bezier(.7,0,.2,1)}
+.faq-q i::before,.faq-q i::after{content:"";position:absolute;left:0;right:0;top:50%;height:1px;background:currentColor}
+.faq-q i::after{transform:rotate(90deg)}
+.faq-q[aria-expanded="true"] i{transform:rotate(45deg)}
+.faq-a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s cubic-bezier(.7,0,.2,1)}
+.faq-a > div{overflow:hidden}
+.faq-item.open .faq-a{grid-template-rows:1fr}
+.faq-a .in{padding:0 36px 22px 4px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:15px;line-height:1.75;color:rgba(255,255,255,.72)}
+
+/* ===== Формы (обратная связь, вакансии) ===== */
+.form{margin:clamp(32px,5vh,48px) auto 0;max-width:560px;display:flex;flex-direction:column;gap:16px;font-family:'Noto Serif JP','Noto Serif',serif}
+.field{display:flex;flex-direction:column;gap:8px}
+.field > span{font-size:14px;color:rgba(255,255,255,.62)}
+.form input[type=text],.form input[type=tel],.form input[type=url],.form select,.form textarea{width:100%;padding:15px 18px;border-radius:14px;
+  border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.04);color:#fff;font:inherit;font-size:16px;outline:none;transition:border-color .3s,background .3s}
+.form textarea{min-height:140px;resize:vertical}
+.form select{appearance:none;background-image:linear-gradient(45deg,transparent 50%,#fff 50%),linear-gradient(135deg,#fff 50%,transparent 50%);
+  background-position:calc(100% - 22px) 50%,calc(100% - 16px) 50%;background-size:6px 6px;background-repeat:no-repeat}
+.form select option{background:var(--navy);color:#fff}
+.form input:focus,.form select:focus,.form textarea:focus{border-color:#fff;background:rgba(255,255,255,.08)}
+.form ::placeholder{color:rgba(255,255,255,.45)}
+.phone{display:flex;align-items:center;border:1px solid rgba(255,255,255,.25);border-radius:14px;background:rgba(255,255,255,.04);transition:border-color .3s}
+.phone:focus-within{border-color:#fff}
+.phone b{padding-left:18px;font-weight:400;color:rgba(255,255,255,.8)}
+.form .phone input{border:0;background:none;padding-left:8px}
+.radios{display:flex;flex-wrap:wrap;gap:10px 22px}
+.check,.radio{display:flex;align-items:flex-start;gap:10px;font-size:14px;line-height:1.55;color:rgba(255,255,255,.75);cursor:pointer}
+.check input,.radio input{margin-top:3px;accent-color:#fff;width:16px;height:16px;flex:0 0 16px}
+.check a{color:#fff;border-bottom:1px solid rgba(255,255,255,.45)}
+.range{display:flex;align-items:center;gap:14px}
+.range input{flex:1;accent-color:#fff}
+.range output{min-width:28px;text-align:center;font-size:22px}
+.form .btn{align-self:flex-start;margin-top:6px}
+.form-done{display:none;text-align:center;padding:30px 20px;border:1px solid rgba(255,255,255,.25);border-radius:22px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:18px;line-height:1.6}
+.form.sent{display:none}
+.form.sent + .form-done{display:block}
+
+/* ===== Подвал — как на главной ===== */
+.foot2{padding:clamp(50px,8vh,80px) clamp(16px,4vw,56px) 36px;border-top:1px solid rgba(255,255,255,.14);
+  display:flex;flex-direction:column;align-items:center;gap:28px;text-align:center;font-family:'Noto Serif JP','Noto Serif',serif}
+.foot-logo2 img{width:130px;display:block;filter:brightness(0) invert(1);opacity:.9}
+.foot-nav2{display:flex;flex-wrap:wrap;justify-content:center;gap:12px 28px;font-size:14px;letter-spacing:.06em;text-transform:uppercase}
+.foot-nav2 a{color:rgba(255,255,255,.75);transition:color .3s}
+.foot-nav2 a:hover{color:#fff}
+.foot-legal{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 22px;font-size:12px;color:rgba(255,255,255,.45)}
+.foot-legal a:hover{color:#fff}
+
+/* появление содержимого */
+@keyframes rise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:none}}
+main > *{animation:rise .9s cubic-bezier(.22,1,.36,1) both}
+main > *:nth-child(2){animation-delay:.1s}
+main > *:nth-child(3){animation-delay:.2s}
+@media (prefers-reduced-motion:reduce){main > *{animation:none}}

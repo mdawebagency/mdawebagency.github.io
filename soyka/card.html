@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Бонусная карта — Сойка</title>
+<meta name="description" content="Бонусная система ресторана «Сойка»: статусы, правила клуба, как получить карту.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+<style>
+/* статусы — 4 карточки в ряд, как ступеньки */
+.statuses{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:clamp(28px,4vh,40px)}
+.st{padding:24px 20px 26px;border:1px solid rgba(255,255,255,.14);border-radius:22px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.012) 60%);
+  font-family:'Noto Serif JP','Noto Serif',serif;text-align:center}
+.st small{display:block;font-size:13px;letter-spacing:.06em;color:rgba(255,255,255,.55)}
+.st b{display:block;margin-top:14px;font-weight:400;font-size:clamp(34px,3.4vw,46px);line-height:1}
+.st span{display:block;margin-top:12px;font-size:15px;color:rgba(255,255,255,.85)}
+@media (max-width:800px){.statuses{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.club{margin-top:clamp(28px,4vh,40px)}
+.club li{list-style:none;padding:14px 0 14px 22px;position:relative;border-top:1px solid rgba(255,255,255,.12)}
+.club li::before{content:"";position:absolute;left:0;top:1.55em;width:8px;height:1px;background:rgba(255,255,255,.6)}
+.club li p+p{margin-top:10px}
+</style>
+</head>
+<body data-page="card">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">ポイントカード</span>
+    <h1 data-i18n="h1">Бонусная система</h1>
+  </div>
+  <p class="lead" data-i18n="lead">C каждого заказа мы начисляем бонусные баллы в % согласно вашему статусу в программе лояльности. Вы можете оплатить до 50% от суммы следующего заказа у нас в гостях, бонусы нельзя списать на винную карту. В день рождения или в течение недели до/после него копим повышенные 15%.</p>
+
+  <div class="wrap">
+    <!-- «Получить карту» — их система лояльности Premium Bonus: карта оформляется там -->
+    <div class="btns"><a class="btn" href="https://cards.premiumbonus.su/Vosmogomarta6/login" target="_blank" rel="noopener" data-i18n="get">Получить карту</a></div>
+
+    <section class="block">
+      <div class="sec-head"><h2 data-i18n="stTitle">Статусы в программе лояльности</h2></div>
+      <p class="lead" data-i18n="stText">Статусы присваиваются исходя из суммы покупок. Например: когда сумма ваших покупок достигает 80 000 рублей, вы получаете статус «Лучший друг», и теперь с каждой покупки вам будут начисляться уже не 5%, а 8%. Повышенные бонусные баллы начисляются со следующей покупки после вступления в новый статус. На сумму покупки, оплаченную бонусами, бонусы не начисляются.</p>
+      <div class="statuses">
+        <div class="st"><small data-i18n="s1a">до 80 000 р.</small><b>5%</b><span data-i18n="s1b">Статус "Друг"</span></div>
+        <div class="st"><small data-i18n="s2a">от 80 000р.</small><b>8%</b><span data-i18n="s2b">Статус "Лучший друг"</span></div>
+        <div class="st"><small data-i18n="s3a">от 160 000р.</small><b>12%</b><span data-i18n="s3b">Статус "Амбассадор"</span></div>
+        <div class="st"><small data-i18n="s4a">от 250 000р.</small><b>15%</b><span data-i18n="s4b">Статус "Патрон"</span></div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="faq-list">
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q1">Как узнать сколько осталось до следующего статуса?</span><i aria-hidden="true"></i></button>
+          <div class="faq-a"><div><div class="in" data-i18n="a1">На информационной стороне карты отображается сумма покупок для перехода в следующий статус</div></div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q2">Бонусы на карте сгорают с какой-то периодичностью?</span><i aria-hidden="true"></i></button>
+          <div class="faq-a"><div><div class="in" data-i18n="a2">Нет, ваши бонусы остаются на карте и не сгорают.</div></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="block">
+      <div class="sec-head"><h2 data-i18n="rTitle">Важные правила клуба</h2></div>
+      <ul class="txt club">
+        <li><p data-i18n="r1a">Начисление бонусов в честь дня рождения — единоразовое. Вы можете получить повышенный бонус не только в сам день рождения, но и за неделю до и неделю после. За 7 дней до вашего дня рождения начинает действовать повышенный процент накоплений — 15%, которым можно воспользоваться единоразово. Для корректного начисления необходимо верно указанная дата рождения на вашей карте.</p><p data-i18n="r1b">Процент бонуса в честь дня рождения не суммируются с основным процентом по карте.</p></li>
+        <li data-i18n="r2">Размер начисляемого бонуса зависит от статуса гостя в программе лояльности и начисляется от суммы чека.</li>
+        <li data-i18n="r3">С помощью бонусов можно оплатить до 50% от стоимости заказа в зависимости от количества накопленных бонусов.</li>
+        <li data-i18n="r4">Один бонус эквивалентен одному рублю. Обмену на российские рубли и любые альтернативные виды валюты не подлежат.</li>
+        <li data-i18n="r5">Карты нельзя передавать другому лицу.</li>
+        <li data-i18n="r6">Бонусы на карте не сгорают.</li>
+        <li data-i18n="r7">В случае удаления, пропажи или иных случаев по потери виртуальной карты необходимо связаться с нами.</li>
+        <li data-i18n="r8">При оплате бонусами можно использовать только собственный бонусный счет.</li>
+        <li data-i18n="r9">На сумму покупки, оплаченную бонусами, бонусы не начисляются.</li>
+        <li data-i18n="r10">Бонусы не используются для оплаты винной карты, заказов с собой и доставки. Только начисляются.</li>
+        <li data-i18n="r11">Ресторан оставляет за собой право изменить правила и условия программы бонусного клуба в любое время без предварительного уведомления.</li>
+        <li data-i18n="r12">Ресторан вправе организовывать различные маркетинговые акции и начислять бонусы на условиях акций для участников бонусного клуба.</li>
+        <li data-i18n-html="r13">Если у вас возникли вопросы по Вашей бонусной карте или по работе бонусного клуба, вы всегда можете получить консультацию по <a href="tel:+73433284284">телефону</a>, электронной почте <a href="mailto:soykarest@gmail.com">soykarest@gmail.com</a> или написав нам <a href="https://vk.com/soykarest" target="_blank" rel="noopener">вконтакте</a></li>
+      </ul>
+    </section>
+  </div>
+</main>
+
+<script>
+/* Переводы (русский — в самой странице). ⚠️ Японский — проверить у носителя. Сайт Premium Bonus — их, на русском */
+window.PAGE_I18N = {
+  en: { title: 'Bonus card — Soyka', h1: 'Bonus programme', get: 'Get the card',
+        lead: 'Every order earns bonus points as a percentage according to your status in the loyalty programme. You can pay up to 50% of your next restaurant bill with them; bonuses can’t be spent on the wine list. On your birthday, or within a week before or after it, you earn an increased 15%.',
+        stTitle: 'Loyalty programme statuses',
+        stText: 'Statuses are assigned based on the total amount of your purchases. For example, when your purchases reach 80,000 roubles, you get the “Best Friend” status, and from then on each purchase earns 8% instead of 5%. Increased bonus points are credited from the next purchase after you reach a new status. No bonuses are earned on the part of a purchase paid with bonuses.',
+        s1a: 'up to 80,000 ₽', s1b: '“Friend” status', s2a: 'from 80,000 ₽', s2b: '“Best Friend” status',
+        s3a: 'from 160,000 ₽', s3b: '“Ambassador” status', s4a: 'from 250,000 ₽', s4b: '“Patron” status',
+        q1: 'How do I find out how much is left until the next status?', a1: 'The information side of the card shows the amount of purchases needed to reach the next status',
+        q2: 'Do the bonuses on the card expire?', a2: 'No, your bonuses stay on the card and never expire.',
+        rTitle: 'Important club rules',
+        r1a: 'Birthday bonuses are credited once. You can get the increased bonus not only on your birthday itself, but also a week before and a week after. 7 days before your birthday an increased earning rate of 15% starts, which can be used once. For correct crediting, your date of birth must be entered correctly on your card.',
+        r1b: 'The birthday bonus percentage is not added to the card’s regular percentage.',
+        r2: 'The amount of bonus earned depends on the guest’s status in the loyalty programme and is calculated from the bill total.',
+        r3: 'Bonuses can cover up to 50% of the order, depending on how many bonuses you have.',
+        r4: 'One bonus equals one rouble. Bonuses cannot be exchanged for roubles or any other currency.',
+        r5: 'Cards cannot be transferred to another person.',
+        r6: 'Bonuses on the card never expire.',
+        r7: 'If the virtual card is deleted, lost or otherwise unavailable, please contact us.',
+        r8: 'When paying with bonuses, only your own bonus account can be used.',
+        r9: 'No bonuses are earned on the part of a purchase paid with bonuses.',
+        r10: 'Bonuses cannot be used to pay for the wine list, takeaway orders or delivery — they are only earned there.',
+        r11: 'The restaurant reserves the right to change the rules and terms of the bonus club at any time without prior notice.',
+        r12: 'The restaurant may run various marketing promotions and credit bonuses to bonus club members on the terms of those promotions.',
+        r13: 'If you have any questions about your bonus card or the bonus club, you can always get advice by <a href="tel:+73433284284">phone</a>, by email at <a href="mailto:soykarest@gmail.com">soykarest@gmail.com</a> or by writing to us on <a href="https://vk.com/soykarest" target="_blank" rel="noopener">VK</a>' },
+  ja: { title: 'ポイントカード — ソイカ', h1: 'ポイントプログラム', get: 'カードを作る',
+        lead: 'ご注文ごとに、ロイヤルティプログラムのステータスに応じた割合でポイントが貯まります。次回の店内でのお会計の50%までお支払いに使えますが、ワインリストにはご利用いただけません。お誕生日とその前後1週間は、15%に増額して貯まります。',
+        stTitle: 'ロイヤルティプログラムのステータス',
+        stText: 'ステータスはご利用金額の合計で決まります。例えば、ご利用金額が80,000ルーブルに達すると「ベストフレンド」ステータスとなり、以降のお買い物ごとに5%ではなく8%のポイントが貯まります。増額されたポイントは、新しいステータスになった次のお買い物から付与されます。ポイントでお支払いいただいた金額にはポイントは付きません。',
+        s1a: '80,000₽まで', s1b: '「フレンド」ステータス', s2a: '80,000₽から', s2b: '「ベストフレンド」ステータス',
+        s3a: '160,000₽から', s3b: '「アンバサダー」ステータス', s4a: '250,000₽から', s4b: '「パトロン」ステータス',
+        q1: '次のステータスまであといくらか知るには？', a1: 'カードの情報面に、次のステータスまでに必要なご利用金額が表示されます',
+        q2: 'カードのポイントに有効期限はありますか？', a2: 'いいえ、ポイントはカードに残り、失効しません。',
+        rTitle: 'クラブの大切なルール',
+        r1a: 'お誕生日のポイント付与は1回限りです。お誕生日当日だけでなく、前後1週間も増額ポイントを受け取れます。お誕生日の7日前から15%の増額が始まり、1回ご利用いただけます。正しく付与するため、カードに正しい生年月日をご登録ください。',
+        r1b: 'お誕生日の割合は、カードの通常の割合と合算されません。',
+        r2: '付与されるポイントは、ロイヤルティプログラムのステータスに応じて、お会計金額から計算されます。',
+        r3: '貯まったポイントに応じて、ご注文金額の50%までポイントでお支払いいただけます。',
+        r4: '1ポイントは1ルーブルに相当します。ルーブルやその他の通貨との交換はできません。',
+        r5: 'カードを他の方に譲渡することはできません。',
+        r6: 'カードのポイントは失効しません。',
+        r7: 'バーチャルカードの削除、紛失などの場合は、当店までご連絡ください。',
+        r8: 'ポイントでのお支払いには、ご本人のポイント口座のみご利用いただけます。',
+        r9: 'ポイントでお支払いいただいた金額にはポイントは付きません。',
+        r10: 'ワインリスト、テイクアウト、デリバリーのお支払いにはポイントをご利用いただけません（貯めるのみです）。',
+        r11: '当店は、事前の通知なくいつでもポイントクラブのルールと条件を変更する権利を有します。',
+        r12: '当店は各種キャンペーンを実施し、キャンペーンの条件に基づいてクラブ会員にポイントを付与することがあります。',
+        r13: 'ポイントカードやクラブについてご不明な点があれば、<a href="tel:+73433284284">お電話</a>、メール <a href="mailto:soykarest@gmail.com">soykarest@gmail.com</a>、または<a href="https://vk.com/soykarest" target="_blank" rel="noopener">VK</a>でいつでもご相談ください' }
+};
+</script>
+<script src="inner.js"></script>
+</body>
+</html>

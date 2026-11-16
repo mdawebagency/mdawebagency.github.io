@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Подарочная карта — Сойка</title>
+<meta name="description" content="Подарочная карта ресторана «Сойка». Действует бессрочно.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+<style>
+.agree{margin-top:22px;text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-size:13px;line-height:1.6;color:rgba(255,255,255,.55)}
+.agree a{color:#fff;border-bottom:1px solid rgba(255,255,255,.4)}
+.cr-rules{margin-top:clamp(28px,4vh,40px)}
+.cr-rules li{margin-top:10px;list-style:none;padding-left:22px;position:relative}
+.cr-rules li::before{content:"";position:absolute;left:0;top:.75em;width:8px;height:1px;background:rgba(255,255,255,.6)}
+</style>
+</head>
+<body data-page="cert">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">ギフトカード</span>
+    <h1 data-i18n="h1">Подарочная карта</h1>
+  </div>
+  <p class="lead" data-i18n="lead">Наша карта действует бессрочно</p>
+
+  <div class="wrap">
+    <div class="btns">
+      <!-- «Купить» — их сервис подарочных карт digift (тот же скрипт, что у них): открывает окно покупки и оплаты -->
+      <a class="btn" href="#gift-cert" id="buyGift" data-i18n="buy">Купить</a>
+      <a class="btn" href="#rules" data-i18n="rulesBtn">Важные правила</a>
+    </div>
+    <p class="agree" data-i18n-html="agree">Покупая сертификат вы соглашаетесь с <a href="#cert-rules">правилами использования подарочной карты</a> и <a href="privacy.html">политикой конфиденциальности</a></p>
+
+    <section class="block" id="rules">
+      <div class="sec-head"><h2 data-i18n="rulesBtn">Важные правила</h2></div>
+      <div class="rules">
+        <div class="rule"><b>-1-</b><p data-i18n="r1">Для оплаты покажите официанту QR-код и номер карты</p></div>
+        <div class="rule"><b>-2-</b><p data-i18n="r2">Карта может быть использована многократно, до исчерпания номинала</p></div>
+        <div class="rule"><b>-3-</b><p data-i18n="r3">Карта может быть использована в ресторане и для оплаты заказов с собой</p></div>
+        <div class="rule"><b>-4-</b><p data-i18n="r4">Если вам недостаточно суммы подарочной карты - вы можете совершить доплату</p></div>
+      </div>
+    </section>
+
+    <!-- у них это отдельная страница /certificaterules — у нас здесь же, текст слово в слово -->
+    <section class="block" id="cert-rules">
+      <div class="sec-head"><h2 data-i18n="crTitle">Правила использования подарочной карты</h2></div>
+      <div class="txt cr-rules">
+        <p data-i18n-html="cr0">Покупка сертификата означает, что Заказчик в необходимой для него степени ознакомился с условиями настоящего соглашения и полностью и безоговорочно согласен с ними, в том числе в части предоставления согласия Исполнителю на обработку персональных данных Заказчика на условиях, указанных в разделе <a href="privacy.html">https://soyka.rest/privacypolicy</a> настоящего соглашения.</p>
+        <ul>
+          <li data-i18n="cr1">Обладатель подарочной карты может воспользоваться ей в ресторане, для доставки и самовывоза</li>
+          <li data-i18n="cr2">Использовать подарочную карту можно неограниченное количество раз до полного исчерпания номинала.</li>
+          <li data-i18n="cr3">Подарочная карта действует бессрочно до момента закрытия ресторана или изменения условий использования.</li>
+          <li data-i18n="cr4">Замена утерянной или испорченной карты производится только при наличии чека.</li>
+          <li data-i18n="cr5">Карта может быть суммирована с другими подарочными/бонусными картами.</li>
+          <li data-i18n="cr6">Приобретая подарочную карту, держатель (предъявитель карты) соглашается со всеми правилами приобретения и использования подарочной карты, обязуется передать эти правила третьему лицу, которому дарится карта.</li>
+        </ul>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script>
+/* Переводы (русский — в самой странице). ⚠️ Японский — проверить у носителя. Окно покупки digift — их, на русском */
+window.PAGE_I18N = {
+  en: { title: 'Gift card — Soyka', h1: 'Gift card', lead: 'Our card never expires', buy: 'Buy', rulesBtn: 'Important rules',
+        agree: 'By buying a gift card you agree to the <a href="#cert-rules">gift card terms of use</a> and the <a href="privacy.html">privacy policy</a>',
+        r1: 'To pay, show the waiter the QR code and the card number',
+        r2: 'The card can be used many times until the balance runs out',
+        r3: 'The card can be used in the restaurant and to pay for takeaway orders',
+        r4: 'If the gift card balance isn’t enough, you can pay the difference',
+        crTitle: 'Gift card terms of use',
+        cr0: 'Buying a gift card means that the Customer has read the terms of this agreement to the extent they need and fully and unconditionally agrees with them, including giving the Contractor consent to process the Customer’s personal data on the terms set out in the section <a href="privacy.html">https://soyka.rest/privacypolicy</a> of this agreement.',
+        cr1: 'The gift card holder can use it in the restaurant, for delivery and for pickup',
+        cr2: 'The gift card can be used an unlimited number of times until the balance is fully used up.',
+        cr3: 'The gift card is valid indefinitely, until the restaurant closes or the terms of use change.',
+        cr4: 'A lost or damaged card can be replaced only with a receipt.',
+        cr5: 'The card can be combined with other gift/bonus cards.',
+        cr6: 'By buying a gift card, the holder (bearer of the card) agrees to all the rules for buying and using the gift card and undertakes to pass these rules on to the third party to whom the card is given.' },
+  ja: { title: 'ギフトカード — ソイカ', h1: 'ギフトカード', lead: '当店のカードに有効期限はありません', buy: '購入する', rulesBtn: '大切なルール',
+        agree: 'ご購入により、<a href="#cert-rules">ギフトカードの利用規約</a>および<a href="privacy.html">プライバシーポリシー</a>に同意したものとみなされます',
+        r1: 'お支払いの際は、QRコードとカード番号をスタッフにお見せください',
+        r2: '残高がなくなるまで、何度でもご利用いただけます',
+        r3: '店内でのお食事とテイクアウトのお支払いにご利用いただけます',
+        r4: 'カードの残高が足りない場合は、差額をお支払いいただけます',
+        crTitle: 'ギフトカードの利用規約',
+        cr0: 'ギフトカードのご購入は、お客様が本規約の内容を必要な範囲で確認し、本規約の<a href="privacy.html">https://soyka.rest/privacypolicy</a>の条件に基づく個人情報の取り扱いへの同意を含め、全面的かつ無条件に同意したことを意味します。',
+        cr1: 'ギフトカードは、店内、デリバリー、お持ち帰りでご利用いただけます',
+        cr2: '残高がなくなるまで、回数の制限なくご利用いただけます。',
+        cr3: 'ギフトカードは、レストランの閉店または利用条件の変更まで無期限で有効です。',
+        cr4: '紛失・破損したカードの再発行は、レシートがある場合に限ります。',
+        cr5: '他のギフトカード・ポイントカードと併用できます。',
+        cr6: 'ギフトカードを購入されたお客様（カードの持参者）は、購入および利用に関するすべての規約に同意し、カードを贈る相手にもこの規約をお伝えいただくものとします。' }
+};
+</script>
+<script src="inner.js"></script>
+<!-- их виджет покупки подарочных карт (digift). Если он на нашем адресе не откроется — кнопка ведёт на их страницу покупки -->
+<script src="https://soyka.digift.ru/script"></script>
+<script>
+(function () {
+  const btn = document.getElementById('buyGift');
+  btn.addEventListener('click', e => e.preventDefault());
+  try {
+    if (window.IframeWidgetFunctional) { IframeWidgetFunctional.init('[href="#gift-cert"]'); return; }
+  } catch (e) {}
+  btn.href = 'https://soyka.digift.ru/'; btn.target = '_blank'; btn.rel = 'noopener';
+  btn.replaceWith(btn.cloneNode(true));   // убираем «не переходить», раз виджета нет
+})();
+</script>
+</body>
+</html>

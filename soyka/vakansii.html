@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Вакансии — Сойка</title>
+<meta name="description" content="Вакансии ресторана «Сойка», Екатеринбург.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+</head>
+<body data-page="jobs">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">求人</span>
+    <h1 data-i18n="h1">Вакансии</h1>
+  </div>
+
+  <div class="wrap">
+    <!-- у них это всплывающее окно на каждой странице; поля и варианты — слово в слово. ⚠️ Набросок: пока никуда не отправляется -->
+    <form class="form" novalidate>
+      <label class="field"><input type="text" name="fio" placeholder="Ваше полное ФИО" data-i18n-ph="fio" autocomplete="name"></label>
+      <div class="phone"><b>+7</b><input type="tel" name="phone" placeholder="(000) 000-00-00" autocomplete="tel-national" aria-label="Телефон" data-i18n-aria="phone"></div>
+      <label class="field"><input type="text" name="birth" placeholder="Дата рождения" data-i18n-ph="birth" onfocus="this.type='date'" onblur="if(!this.value)this.type='text'"></label>
+      <label class="field"><input type="text" name="district" placeholder="Район, в котором проживаете" data-i18n-ph="district"></label>
+      <label class="field">
+        <select name="job" aria-label="Вакансия" data-i18n-aria="jobL">
+          <option value="" selected disabled data-i18n="job0">Выберите желаемую вакансию</option>
+          <option data-i18n="j1">Менеджер ресторана</option>
+          <option data-i18n="j2">Менеджер доставки-кассир</option>
+          <option data-i18n="j3">Гест-менеджер</option>
+          <option data-i18n="j4">Официант</option>
+          <option data-i18n="j5">Помощник официанта</option>
+          <option data-i18n="j6">Хостес</option>
+          <option data-i18n="j7">Бармен</option>
+          <option data-i18n="j8">Повар</option>
+          <option data-i18n="j9">Пекарь</option>
+          <option data-i18n="j10">Кондитер</option>
+          <option data-i18n="j11">Гардеробщик</option>
+          <option data-i18n="j12">Мойщик-уборщик</option>
+          <option data-i18n="j13">Другое</option>
+        </select>
+      </label>
+      <label class="field"><span data-i18n="expL">Опыт работы в этой должности</span>
+        <select name="exp">
+          <option data-i18n="e1">Без опыта работы</option>
+          <option data-i18n="e2">От 0 до 6 месяцев</option>
+          <option data-i18n="e3">От 6 месяцев до 1 года</option>
+          <option data-i18n="e4">От 1 года до 3 лет</option>
+          <option data-i18n="e5">От 3 лет и более</option>
+        </select>
+      </label>
+      <div class="radios">
+        <label class="radio"><input type="radio" name="term" value="Постоянная"> <span data-i18n="t1">На постоянную основу</span></label>
+        <label class="radio"><input type="radio" name="term" value="Временная"> <span data-i18n="t2">На временный период</span></label>
+      </div>
+      <label class="field"><input type="url" name="cv" placeholder="Ссылка на ваше резюме" data-i18n-ph="cv"></label>
+      <label class="check"><input type="checkbox" name="agree" required> <span data-i18n-html="agree">Нажимая «Отправить», соглашаюсь на обработку персональных данных в соответствии с <a href="soglasie.html">согласием на обработку персональных данных</a>.</span></label>
+      <button class="btn" type="submit" data-i18n="send">Отправить</button>
+    </form>
+    <div class="form-done" role="status" data-i18n="done">Спасибо! Данные успешно отправлены.</div>
+  </div>
+</main>
+
+<script>
+/* Переводы (русский — в самой странице). ⚠️ Японский — проверить у носителя */
+window.PAGE_I18N = {
+  en: { title: 'Vacancies — Soyka', h1: 'Vacancies', fio: 'Your full name', phone: 'Phone', birth: 'Date of birth', district: 'District where you live',
+        jobL: 'Vacancy', job0: 'Choose a vacancy', j1: 'Restaurant manager', j2: 'Delivery manager / cashier', j3: 'Guest manager', j4: 'Waiter',
+        j5: 'Waiter’s assistant', j6: 'Host', j7: 'Bartender', j8: 'Cook', j9: 'Baker', j10: 'Pastry cook', j11: 'Cloakroom attendant',
+        j12: 'Dishwasher / cleaner', j13: 'Other', expL: 'Experience in this position', e1: 'No experience', e2: '0 to 6 months',
+        e3: '6 months to 1 year', e4: '1 to 3 years', e5: '3 years or more', t1: 'Permanent', t2: 'Temporary', cv: 'Link to your CV',
+        agree: 'By clicking “Send”, I agree to the processing of personal data in accordance with the <a href="soglasie.html">consent to personal data processing</a>.',
+        send: 'Send', done: 'Thank you! Your application has been sent.' },
+  ja: { title: '求人 — ソイカ', h1: '求人', fio: '氏名（フルネーム）', phone: '電話番号', birth: '生年月日', district: 'お住まいの地区',
+        jobL: '希望職種', job0: '希望職種を選んでください', j1: 'レストランマネージャー', j2: 'デリバリーマネージャー・レジ', j3: 'ゲストマネージャー', j4: 'ホールスタッフ',
+        j5: 'ホールアシスタント', j6: 'ホステス', j7: 'バーテンダー', j8: '調理スタッフ', j9: 'パン職人', j10: 'パティシエ', j11: 'クローク係',
+        j12: '洗い場・清掃', j13: 'その他', expL: 'この職種での経験', e1: '未経験', e2: '0〜6か月',
+        e3: '6か月〜1年', e4: '1〜3年', e5: '3年以上', t1: '長期（正規）', t2: '期間限定', cv: '履歴書のリンク',
+        agree: '「送信」を押すことで、<a href="soglasie.html">個人情報の取り扱いへの同意</a>に基づく個人情報の取り扱いに同意します。',
+        send: '送信', done: 'ありがとうございます！応募を受け付けました。' }
+};
+</script>
+<script src="inner.js"></script>
+</body>
+</html>

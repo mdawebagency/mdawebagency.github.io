@@ -36,6 +36,9 @@ a{color:inherit;text-decoration:none}
 .hero-photo video{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
   transform:scale(1.04);filter:brightness(.55)}
 @media (min-aspect-ratio:9/10){ .hero-photo video{height:100%;object-position:50% 50%} }
+/* 16.11: видео невидимо, пока не пошло, потом плавно проявляется */
+.hero-photo video{opacity:0;transition:opacity 1.2s ease}
+.hero-photo video.ready{opacity:1}
 .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;
   transform:scale(1.04);filter:brightness(.55)}
 
@@ -102,7 +105,7 @@ body.menu-open{overflow:hidden}
 .top-right a:hover::after{transform:scaleX(1);transform-origin:left}
 
 /* центр экрана: カケス и под ними слоган — одной колонкой, как у Akaneya */
-.center{position:absolute;left:50%;top:64%;transform:translate(-50%,-50%);z-index:10;
+.center{position:absolute;left:50%;top:69%;   /* 16.11 Макар: чуть ниже (было 64%) */transform:translate(-50%,-50%);z-index:10;
   display:flex;flex-direction:column;align-items:center;gap:clamp(32px,5vh,48px)}
 
 /* カケス — как иероглифы у Akaneya. 14.11: вдвое меньше (было до 320px) */
@@ -272,16 +275,16 @@ body.menu-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.bird-body,.paw{animation:none}}
 
 /* ===== Блок «Коллаборация» ===== */
-.collab2{position:relative;padding:clamp(100px,16vh,180px) clamp(16px,4vw,56px);display:flex;justify-content:center;overflow:hidden}
+.collab2{position:relative;padding:clamp(100px,16vh,180px) clamp(16px,4vw,56px) 10px;display:flex;   /* 16.11: снизу меньше — «Контакты» ближе */justify-content:center;overflow:hidden}
 .collab-frame{position:relative;z-index:1;width:min(100%,760px);min-height:clamp(320px,46vh,450px);   /* 15.11: рамку убрали */
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px 0;
   font-family:'Noto Serif JP','Noto Serif',serif}
 .collab-frame .jp{font-size:16px;line-height:1.7;letter-spacing:.08em;color:#fff}
 .collab-frame h2{margin-top:6px;font-weight:400;font-size:clamp(24px,2.6vw,36px);line-height:1.3;color:rgba(255,255,255,.9)}
 .collab-frame p{margin-top:20px;max-width:520px;font-size:clamp(16px,1.3vw,19px);line-height:1.7;color:rgba(255,255,255,.72)}
 .collab-frame .see-link{margin-top:32px}
 /* 15.11: カケス вплотную к правому краю и чуть уходят за него — как у них на сайте */
-.collab-kana2{position:absolute;right:-36px;top:33%;   /* 15.11: выше полукруга (Макар: «ещё повыше») */transform:translateY(-50%);height:min(56vh,520px)}
+.collab-kana2{position:absolute;right:-36px;top:calc(33% + 72px);   /* 16.11: блок стал ниже на ~220px — знаки остаются там же, где были */   /* 15.11: выше полукруга (Макар: «ещё повыше») */transform:translateY(-50%);height:min(56vh,520px)}
 .collab-kana2 span,.js-anim .collab-kana2 span{opacity:.55}
 /* полукруг слева — как красный круг у них: круг стоит за левым краем, видна правая половина */
 .collab-half{position:absolute;left:0;top:50%;width:clamp(150px,17vw,230px);aspect-ratio:1/2;transform:translateY(-50%);
@@ -317,7 +320,7 @@ body.menu-open{overflow:hidden}
 .js-anim .faq-item{opacity:0;transform:translateY(24px)}
 
 /* ===== Блок «Контакты» — как CONTACT у Akaneya: подписи мелко, данные крупнее ===== */
-.contacts2{padding:clamp(80px,12vh,140px) clamp(16px,4vw,56px) clamp(60px,9vh,100px);display:flex;flex-direction:column;align-items:center}
+.contacts2{padding:clamp(24px,4vh,40px) clamp(16px,4vw,56px) clamp(60px,9vh,100px);   /* 16.11 Макар: заголовок выше, без пустого места (было до 140px) */display:flex;flex-direction:column;align-items:center}
 .ct-grid{width:min(100%,1320px);margin-top:clamp(40px,6vh,64px);display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,2.2fr);   /* 15.11: карта шире */gap:clamp(28px,4vw,64px);align-items:stretch}
 .ct-info{display:flex;flex-direction:column;gap:22px;font-family:'Noto Serif JP','Noto Serif',serif}
 .ct-info dt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
@@ -404,15 +407,15 @@ html{background:var(--bg)}
   <aside class="drawer-panel" role="dialog" aria-label="Меню сайта">
     <button class="drawer-x" type="button" aria-label="Закрыть меню" data-close>✕</button>
     <nav class="drawer-nav">
-      <a href="#menu" data-i18n="menu">Меню</a>
-      <a href="#menu" data-i18n="dBar">Бар и вино</a>
+      <a href="menu.html" data-i18n="menu">Меню</a>
+      <a href="menu.html#bar" data-i18n="dBar">Бар и вино</a>
       <a href="#interior" data-i18n="intTitle">Интерьер</a>
-      <a href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener" data-i18n="book">Забронировать</a>
+      <a href="bronirovanie.html" data-i18n="book">Забронировать</a>
       <a href="https://delivery.soyka.rest/" target="_blank" rel="noopener" data-i18n="delivery">Доставка</a>
-      <a href="https://soyka.rest/certificate" target="_blank" rel="noopener" data-i18n="fCert">Сертификат</a>
-      <a href="https://soyka.rest/card" target="_blank" rel="noopener" data-i18n="fCard">Получить карту</a>
-      <a href="https://soyka.rest/feedback" target="_blank" rel="noopener" data-i18n="fFeed">Обратная связь</a>
-      <a href="https://soyka.rest/#popup:myform" target="_blank" rel="noopener" data-i18n="fJobs">Вакансии</a>
+      <a href="certificate.html" data-i18n="fCert">Сертификат</a>
+      <a href="card.html" data-i18n="fCard">Получить карту</a>
+      <a href="feedback.html" data-i18n="fFeed">Обратная связь</a>
+      <a href="vakansii.html" data-i18n="fJobs">Вакансии</a>
       <a href="#contacts" data-i18n="ctTitle">Контакты</a>
     </nav>
     <div class="drawer-info">
@@ -431,7 +434,9 @@ html{background:var(--bg)}
   <div class="hero-photo" id="heroPhoto">
     <!-- 15.11: видео повара Сойки (их клип @soykarest, Макару разрешили). Пока видео грузится — их фото.
          Водяной знак ВК стоит внизу ролика и не двигается — видео растянуто и обрезано так, что нижняя полоска со знаком всегда за краем экрана -->
-    <video id="heroImg" src="video/hero-video.mp4" poster="img/hero-site.jpg" autoplay muted loop playsinline preload="auto" aria-label="Повар «Сойки» нарезает рыбу"></video>
+    <!-- 16.11: без заставки-фото — раньше на медленном интернете на секунду мелькало фото блюд, а потом резко видео.
+         Теперь пока видео грузится — тёмно-синий фон, видео плавно проявляется, когда пошло (скрипт внизу) -->
+    <video id="heroImg" src="video/hero-video.mp4" autoplay muted loop playsinline preload="auto" aria-label="Повар «Сойки» нарезает рыбу"></video>
   </div>
   <div class="hero-shade"></div>
 
@@ -447,8 +452,8 @@ html{background:var(--bg)}
     </div>
     <a class="top-logo" href="#hero" aria-label="Сойка — на главную"><img src="img/logo.png" alt="Сойка"></a>
     <div class="top-right">
-      <a class="hide-m" href="https://soyka.rest/menumenu" data-i18n="menu">Меню</a>
-      <a class="hide-m" href="https://soyka.rest/bronirovanie" data-i18n="book">Забронировать</a>
+      <a class="hide-m" href="menu.html" data-i18n="menu">Меню</a>
+      <a class="hide-m" href="bronirovanie.html" data-i18n="book">Забронировать</a>
       <!-- окно «Доставка» → их сайт доставки -->
       <a class="deliv" href="https://delivery.soyka.rest/" target="_blank" rel="noopener" data-i18n="delivery">Доставка</a>
     </div>
@@ -578,7 +583,7 @@ html{background:var(--bg)}
       </div>
       <h3 data-i18n="menuTitle">Меню</h3>
       <p data-i18n="menuText">Меню Сойки объединяет энергию улиц Юго-Восточной Азии, современный взгляд на гастрономию и легкость формата - все то, ради чего сюда хочется возвращаться.</p>
-      <a class="see-link" href="https://soyka.rest/menumenu" target="_blank" rel="noopener" data-i18n="menuBtn">Посмотреть меню</a>
+      <a class="see-link" href="menu.html" data-i18n="menuBtn">Посмотреть меню</a>
     </article>
     <article class="mb-card">
       <!-- над баром — шагающая гейша (ноги вырезаны отдельно, из прошлой версии) -->
@@ -599,7 +604,7 @@ html{background:var(--bg)}
       </div>
       <h3 data-i18n="barTitle">Бар и винная карта</h3>
       <p data-i18n="barText">В барной карте баланс между узнаваемыми напитками и редкими находками. А наша винная карта была удостоена двух звезд престижной премии Russian Wine Awards.</p>
-      <a class="see-link" href="https://soyka.rest/menumenu#!/tab/1266972691-3" target="_blank" rel="noopener" data-i18n="barBtn">Посмотреть карту</a>
+      <a class="see-link" href="menu.html#bar" data-i18n="barBtn">Посмотреть карту</a>
     </article>
   </div>
 </section>
@@ -613,7 +618,7 @@ html{background:var(--bg)}
   <div class="faq-list">
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q1">Как забронировать стол?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a1">Выберите дату и время в <a href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener">форме бронирования</a> — вы увидите все актуальные варианты. После заполнения на почту придёт письмо о том, что бронь ожидает подтверждения, а как только мы её подтвердим — письмо о подтверждении. Если бронь по каким-то причинам окажется невозможной, мы обязательно свяжемся с вами.</p></div></div>
+      <div class="faq-a"><div><p data-i18n-html="a1">Выберите дату и время в <a href="bronirovanie.html">форме бронирования</a> — вы увидите все актуальные варианты. После заполнения на почту придёт письмо о том, что бронь ожидает подтверждения, а как только мы её подтвердим — письмо о подтверждении. Если бронь по каким-то причинам окажется невозможной, мы обязательно свяжемся с вами.</p></div></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q2">Есть ли доставка?</span><i aria-hidden="true"></i></button>
@@ -621,11 +626,11 @@ html{background:var(--bg)}
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q3">Можно ли подарить ужин в «Сойке»?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a3">Да, с <a href="https://soyka.rest/certificate" target="_blank" rel="noopener">подарочной картой</a>. Она действует бессрочно и может быть использована многократно, до исчерпания номинала — в ресторане и для оплаты заказов с собой. Если суммы карты недостаточно, можно доплатить. Для оплаты покажите официанту QR-код и номер карты.</p></div></div>
+      <div class="faq-a"><div><p data-i18n-html="a3">Да, с <a href="certificate.html">подарочной картой</a>. Она действует бессрочно и может быть использована многократно, до исчерпания номинала — в ресторане и для оплаты заказов с собой. Если суммы карты недостаточно, можно доплатить. Для оплаты покажите официанту QR-код и номер карты.</p></div></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q4">Есть ли бонусная карта?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a4">Да. С каждого заказа начисляются бонусы — от 5% до 15% в зависимости от статуса (Друг, Лучший друг, Амбассадор, Патрон), в день рождения и неделю до и после — 15%. Один бонус равен одному рублю, бонусами можно оплатить до 50% заказа в ресторане, и они не сгорают. Бонусы нельзя тратить на винную карту, заказы с собой и доставку — на них можно только копить. <a href="https://soyka.rest/card" target="_blank" rel="noopener">Получить карту</a>.</p></div></div>
+      <div class="faq-a"><div><p data-i18n-html="a4">Да. С каждого заказа начисляются бонусы — от 5% до 15% в зависимости от статуса (Друг, Лучший друг, Амбассадор, Патрон), в день рождения и неделю до и после — 15%. Один бонус равен одному рублю, бонусами можно оплатить до 50% заказа в ресторане, и они не сгорают. Бонусы нельзя тратить на винную карту, заказы с собой и доставку — на них можно только копить. <a href="card.html">Получить карту</a>.</p></div></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q5">Во сколько вы работаете?</span><i aria-hidden="true"></i></button>
@@ -641,11 +646,11 @@ html{background:var(--bg)}
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q8">Есть ли у вас вакансии?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a8">Посмотрите <a href="https://soyka.rest/#popup:myform" target="_blank" rel="noopener">вакансии на нашем сайте</a>.</p></div></div>
+      <div class="faq-a"><div><p data-i18n-html="a8">Посмотрите <a href="vakansii.html">вакансии на нашем сайте</a>.</p></div></div>
     </div>
     <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q9">Как оставить отзыв?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a9">Через <a href="https://soyka.rest/feedback" target="_blank" rel="noopener">форму обратной связи</a>.</p></div></div>
+      <div class="faq-a"><div><p data-i18n-html="a9">Через <a href="feedback.html">форму обратной связи</a>.</p></div></div>
     </div>
   </div>
 </section>
@@ -677,7 +682,7 @@ html{background:var(--bg)}
       <div><dt data-i18n="ctPhoneL">Телефон</dt><dd><a href="tel:+73433284284">+7 (343) 328-42-84</a></dd></div>
       <div><dt data-i18n="ctMailL">Почта</dt><dd><a href="mailto:soykarest@gmail.com">soykarest@gmail.com</a></dd></div>
       <div><dt data-i18n="ctSocL">Соцсети</dt><dd><a href="https://telegram.me/Soykarestaurant" target="_blank" rel="noopener">Telegram</a> · <a href="https://vk.com/soykarest" target="_blank" rel="noopener" data-i18n="ctVk">ВКонтакте</a></dd></div>
-      <a class="see-link" href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener" data-i18n="book">Забронировать</a>
+      <a class="see-link" href="bronirovanie.html" data-i18n="book">Забронировать</a>
     </dl>
     <div class="ct-map" data-reveal>
       <!-- 15.11 Макар: Яндекс Карты. Простой виджет по координатам (не их конструктор — в нём была реклама).
@@ -692,18 +697,18 @@ html{background:var(--bg)}
 <footer class="foot2">
   <a class="foot-logo2" href="#hero" aria-label="Сойка — наверх"><img src="img/logo.png" alt="Сойка"></a>
   <nav class="foot-nav2" aria-label="Страницы ресторана">
-    <a href="https://soyka.rest/menumenu" target="_blank" rel="noopener" data-i18n="menu">Меню</a>
+    <a href="menu.html" data-i18n="menu">Меню</a>
     <a href="https://delivery.soyka.rest/" target="_blank" rel="noopener" data-i18n="delivery">Доставка</a>
-    <a href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener" data-i18n="book">Забронировать</a>
-    <a href="https://soyka.rest/certificate" target="_blank" rel="noopener" data-i18n="fCert">Сертификат</a>
-    <a href="https://soyka.rest/card" target="_blank" rel="noopener" data-i18n="fCard">Получить карту</a>
-    <a href="https://soyka.rest/feedback" target="_blank" rel="noopener" data-i18n="fFeed">Обратная связь</a>
-    <a href="https://soyka.rest/#popup:myform" target="_blank" rel="noopener" data-i18n="fJobs">Вакансии</a>
+    <a href="bronirovanie.html" data-i18n="book">Забронировать</a>
+    <a href="certificate.html" data-i18n="fCert">Сертификат</a>
+    <a href="card.html" data-i18n="fCard">Получить карту</a>
+    <a href="feedback.html" data-i18n="fFeed">Обратная связь</a>
+    <a href="vakansii.html" data-i18n="fJobs">Вакансии</a>
   </nav>
   <div class="foot-legal">
     <span data-i18n="fCopy">© 2026 Сойка. Все права защищены</span>
-    <a href="https://soyka.rest/privacypolicy" target="_blank" rel="noopener" data-i18n="fPriv">Политика конфиденциальности</a>
-    <a href="https://soyka.rest/soglasie" target="_blank" rel="noopener" data-i18n="fAgree">Согласие на обработку данных</a>
+    <a href="privacy.html" data-i18n="fPriv">Политика конфиденциальности</a>
+    <a href="soglasie.html" data-i18n="fAgree">Согласие на обработку данных</a>
   </div>
 </footer>
 
@@ -748,15 +753,15 @@ const I18N = {
         q1: 'How do I book a table?', q2: 'Do you deliver?', q3: 'Can I gift a dinner at Soyka?',
         q4: 'Is there a bonus card?', q5: 'What are your opening hours?', q6: 'Where are you located?',
         q7: 'We’d like to collaborate with you', q8: 'Are you hiring?', q9: 'How can I leave feedback?',
-        a1: 'Choose a date and time in the <a href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener">booking form</a> to see all available options. You’ll receive an email saying your booking is awaiting confirmation, and another one once we confirm it. If the booking turns out to be impossible for some reason, we will definitely contact you.',
+        a1: 'Choose a date and time in the <a href="bronirovanie.html">booking form</a> to see all available options. You’ll receive an email saying your booking is awaiting confirmation, and another one once we confirm it. If the booking turns out to be impossible for some reason, we will definitely contact you.',
         a2: 'Yes — you can order on our delivery site <a href="https://delivery.soyka.rest/" target="_blank" rel="noopener">delivery.soyka.rest</a>.',
-        a3: 'Yes, with a <a href="https://soyka.rest/certificate" target="_blank" rel="noopener">gift card</a>. It never expires and can be used many times until the balance runs out — in the restaurant and for takeaway orders. If the balance isn’t enough, you can pay the difference. To pay, show the waiter the QR code and the card number.',
-        a4: 'Yes. Every order earns bonuses — from 5% to 15% depending on your status (Friend, Best Friend, Ambassador, Patron), and 15% on your birthday and a week before and after. One bonus equals one rouble, bonuses can cover up to 50% of a restaurant bill, and they never expire. Bonuses can’t be spent on the wine list, takeaway or delivery — those only earn bonuses. <a href="https://soyka.rest/card" target="_blank" rel="noopener">Get the card</a>.',
+        a3: 'Yes, with a <a href="certificate.html">gift card</a>. It never expires and can be used many times until the balance runs out — in the restaurant and for takeaway orders. If the balance isn’t enough, you can pay the difference. To pay, show the waiter the QR code and the card number.',
+        a4: 'Yes. Every order earns bonuses — from 5% to 15% depending on your status (Friend, Best Friend, Ambassador, Patron), and 15% on your birthday and a week before and after. One bonus equals one rouble, bonuses can cover up to 50% of a restaurant bill, and they never expire. Bonuses can’t be spent on the wine list, takeaway or delivery — those only earn bonuses. <a href="card.html">Get the card</a>.',
         a5: 'Sun–Thu 12:00–00:00, Fri–Sat 12:00–01:00.',
         a6: 'Yekaterinburg, 6 8 Marta St. — in an old mansion with white brick vaults, part of the architectural ensemble of the merchant Tupikov’s estate.',
         a7: 'Answer a couple of questions in the <a href="https://forms.gle/k2pZzCRd7EPgPXMn8" target="_blank" rel="noopener">request form</a> so we can get to know each other better.',
-        a8: 'See the <a href="https://soyka.rest/#popup:myform" target="_blank" rel="noopener">vacancies on our website</a>.',
-        a9: 'Through the <a href="https://soyka.rest/feedback" target="_blank" rel="noopener">feedback form</a>.',
+        a8: 'See the <a href="vakansii.html">vacancies on our website</a>.',
+        a9: 'Through the <a href="feedback.html">feedback form</a>.',
         colTitle: 'Shall we plan a collaboration?', colBtn: 'Leave a request',
         colText: 'Answer a couple of questions so we can get to know each other better',
         mbTitle: 'Menu & bar', barTitle: 'Bar & wine list', barBtn: 'View the list',
@@ -783,15 +788,15 @@ const I18N = {
         q1: '席の予約方法は？', q2: 'デリバリーはありますか？', q3: '「ソイカ」での食事をプレゼントできますか？',
         q4: 'ポイントカードはありますか？', q5: '営業時間は？', q6: '場所はどこですか？',
         q7: 'コラボレーションをしたい', q8: '求人はありますか？', q9: '感想を送るには？',
-        a1: '<a href="https://soyka.rest/bronirovanie" target="_blank" rel="noopener">予約フォーム</a>で日付と時間を選ぶと、空いている候補がすべて表示されます。入力後、予約確認待ちのメールが届き、確定すると確認メールが届きます。何らかの理由で予約できない場合は、必ずご連絡します。',
+        a1: '<a href="bronirovanie.html">予約フォーム</a>で日付と時間を選ぶと、空いている候補がすべて表示されます。入力後、予約確認待ちのメールが届き、確定すると確認メールが届きます。何らかの理由で予約できない場合は、必ずご連絡します。',
         a2: 'はい。デリバリーサイト <a href="https://delivery.soyka.rest/" target="_blank" rel="noopener">delivery.soyka.rest</a> でご注文いただけます。',
-        a3: 'はい、<a href="https://soyka.rest/certificate" target="_blank" rel="noopener">ギフトカード</a>で。有効期限はなく、残高がなくなるまで何度でも、店内でもテイクアウトでもご利用いただけます。残高が足りない場合は差額をお支払いいただけます。お支払いの際はQRコードとカード番号をスタッフにお見せください。',
-        a4: 'はい。ご注文ごとにステータス（フレンド、ベストフレンド、アンバサダー、パトロン）に応じて5%〜15%のボーナスが貯まり、誕生日とその前後1週間は15%です。1ボーナス＝1ルーブル、店内のお会計の50%までお支払いに使え、失効しません。ワインリスト、テイクアウト、デリバリーには使えず、貯めるのみです。<a href="https://soyka.rest/card" target="_blank" rel="noopener">カードを作る</a>。',
+        a3: 'はい、<a href="certificate.html">ギフトカード</a>で。有効期限はなく、残高がなくなるまで何度でも、店内でもテイクアウトでもご利用いただけます。残高が足りない場合は差額をお支払いいただけます。お支払いの際はQRコードとカード番号をスタッフにお見せください。',
+        a4: 'はい。ご注文ごとにステータス（フレンド、ベストフレンド、アンバサダー、パトロン）に応じて5%〜15%のボーナスが貯まり、誕生日とその前後1週間は15%です。1ボーナス＝1ルーブル、店内のお会計の50%までお支払いに使え、失効しません。ワインリスト、テイクアウト、デリバリーには使えず、貯めるのみです。<a href="card.html">カードを作る</a>。',
         a5: '日〜木 12:00〜24:00、金・土 12:00〜翌1:00。',
         a6: 'エカテリンブルク、8マルタ通り6番地。商人トゥピコフの屋敷の建築群に属する、白いレンガのヴォールト天井が残る古い邸宅にあります。',
         a7: 'お互いをよく知るために、<a href="https://forms.gle/k2pZzCRd7EPgPXMn8" target="_blank" rel="noopener">申し込みフォーム</a>でいくつかの質問にお答えください。',
-        a8: '<a href="https://soyka.rest/#popup:myform" target="_blank" rel="noopener">サイトの求人情報</a>をご覧ください。',
-        a9: '<a href="https://soyka.rest/feedback" target="_blank" rel="noopener">お問い合わせフォーム</a>からどうぞ。',
+        a8: '<a href="vakansii.html">サイトの求人情報</a>をご覧ください。',
+        a9: '<a href="feedback.html">お問い合わせフォーム</a>からどうぞ。',
         colTitle: 'コラボレーションしませんか？', colBtn: 'お問い合わせ',
         colText: 'お互いをよく知るために、いくつかの質問にお答えください',
         mbTitle: 'メニューとバー', barTitle: 'バー＆ワインリスト', barBtn: 'リストを見る',
@@ -1014,6 +1019,14 @@ if (!calm && window.anime && window.Motion) {
   const v = document.getElementById('heroImg');
   if (!v || v.tagName !== 'VIDEO') return;
   const END = 9.9;
+  // 16.11: проявляем видео, только когда оно реально заиграло (до этого — тёмно-синий фон, без мелькания фото)
+  const show = () => v.classList.add('ready');
+  if (!v.paused && v.readyState >= 3) show();
+  v.addEventListener('playing', show, { once: true });
+  // если браузер запретил автозапуск (например, режим энергосбережения на iPhone) — показываем их фото вместо видео
+  v.play().catch(err => {
+    if (err && err.name === 'NotAllowedError') { v.poster = 'img/hero-site.jpg'; show(); }
+  });
   (function watch() {
     if (v.currentTime >= END) { v.currentTime = 0; if (v.paused) v.play().catch(() => {}); }
     requestAnimationFrame(watch);

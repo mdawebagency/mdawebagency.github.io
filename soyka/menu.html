@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Меню и барная карта — Сойка</title>
+<meta name="description" content="Меню, спешл, бар и вино, детское меню и КБЖУ ресторана «Сойка», Екатеринбург, ул. 8 Марта, 6.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400&family=Noto+Serif:wght@400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="inner.css">
+<style>
+/* Вкладки — как у них на /menumenu: ряд рамок, выбранная выделена. У нас подсветка белая, не красная */
+.tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:0;margin-top:clamp(28px,4vh,40px);border:1px solid rgba(255,255,255,.35);border-radius:14px;overflow:hidden}
+.tab{padding:14px 8px;background:none;border:0;border-left:1px solid rgba(255,255,255,.35);color:rgba(255,255,255,.75);cursor:pointer;
+  font-family:'Noto Serif JP','Noto Serif',serif;font-size:15px;transition:background .3s,color .3s}
+.tab:first-child{border-left:0}
+.tab:hover{color:#fff;background:rgba(255,255,255,.06)}
+.tab[aria-selected="true"]{color:#fff;background:rgba(255,255,255,.14);box-shadow:inset 0 -2px 0 #fff}
+@media (max-width:760px){
+  .tabs{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .tab:nth-child(4){border-left:0}
+  .tab:nth-child(n+4){border-top:1px solid rgba(255,255,255,.35)}
+  .tab{font-size:14px;padding:12px 4px}
+}
+.panel{margin-top:clamp(28px,4vh,40px)}
+.panel[hidden]{display:none}
+.panel.show{animation:rise .6s cubic-bezier(.22,1,.36,1) both}
+/* их страницы меню — картинками, как у них. На компьютере — разворот, на телефоне — их отдельные картинки для телефона */
+.pages{display:flex;flex-direction:column;align-items:center;gap:22px}
+.pages img{display:block;width:100%;max-width:1180px;height:auto;border-radius:6px;box-shadow:0 30px 60px -30px rgba(0,0,0,.7);background:#fff}
+.pages img.portrait{max-width:820px}
+.only-m{display:none}
+@media (max-width:980px){ .only-d{display:none} .only-m{display:flex} }
+.note{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-size:16px;letter-spacing:.06em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:22px}
+.legal-note{margin:clamp(40px,6vh,60px) auto 0;max-width:980px;text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-size:12px;line-height:1.7;color:rgba(255,255,255,.45)}
+
+/* КБЖУ — как у них на /kbju: две вкладки, разделы, позиции раскрываются */
+.kb-tabs{display:flex;justify-content:center;gap:10px}
+.kb-tab{padding:10px 22px;border:1px solid rgba(255,255,255,.45);border-radius:999px;background:none;color:rgba(255,255,255,.75);cursor:pointer;
+  font-family:'Noto Serif JP','Noto Serif',serif;font-size:14px;transition:border-color .3s,background .3s,color .3s}
+.kb-tab:hover{color:#fff;border-color:#fff}
+.kb-tab[aria-selected="true"]{color:#fff;border-color:#fff;background:rgba(255,255,255,.14)}
+.kb-nav{display:flex;flex-wrap:wrap;justify-content:center;gap:8px 18px;margin:26px auto 0;max-width:900px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:14px}
+.kb-nav a{color:rgba(255,255,255,.65);border-bottom:1px solid transparent;transition:color .3s,border-color .3s}
+.kb-nav a:hover{color:#fff;border-color:rgba(255,255,255,.5)}
+.kb-sec{margin-top:clamp(40px,6vh,60px);scroll-margin-top:90px}
+.kb-sec h3{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400;font-size:20px;letter-spacing:.06em;text-transform:uppercase}
+/* две колонки «газетой»: раскрытая позиция не растягивает соседнюю колонку */
+.kb-grid{columns:2;column-gap:clamp(20px,3vw,40px);margin-top:18px}
+@media (max-width:760px){ .kb-grid{columns:1} }
+.kb-grid .faq-item{border-top:1px solid var(--line);border-bottom:0;break-inside:avoid}
+/* страницу меню можно открыть крупно — нажать на картинку */
+.pages a{display:contents;cursor:zoom-in}
+.kb-grid .faq-q{font-size:16px;padding:16px 4px}
+.kb-tbl{width:100%;border-collapse:collapse;margin-top:8px;font-size:14px}
+.kb-tbl th,.kb-tbl td{padding:6px 4px;text-align:center;border-bottom:1px solid rgba(255,255,255,.12);font-weight:400}
+.kb-tbl th{color:rgba(255,255,255,.5);font-size:12px}
+.kb-tbl td:first-child,.kb-tbl th:first-child{text-align:left}
+.kb-comp{margin-top:12px;font-size:13px;line-height:1.65;color:rgba(255,255,255,.6)}
+</style>
+</head>
+<body data-page="menu">
+
+<main>
+  <div class="sec-head">
+    <span class="jp">メニュー</span>
+    <h1 data-i18n="h1">Меню и барная карта</h1>
+  </div>
+
+  <div class="wrap wide">
+    <!-- вкладки — те же, что у них на сайте, в том же порядке -->
+    <div class="tabs" role="tablist" aria-label="Разделы меню">
+      <button class="tab" role="tab" id="t-menu" aria-controls="p-menu" data-hash="menu" aria-selected="true" data-i18n="tMenu">Меню</button>
+      <button class="tab" role="tab" id="t-special" aria-controls="p-special" data-hash="special" aria-selected="false" data-i18n="tSpecial">Спешл</button>
+      <button class="tab" role="tab" id="t-bar" aria-controls="p-bar" data-hash="bar" aria-selected="false" data-i18n="dBar">Бар и вино</button>
+      <button class="tab" role="tab" id="t-kids" aria-controls="p-kids" data-hash="kids" aria-selected="false" data-i18n="tKids">Детское меню</button>
+      <button class="tab" role="tab" id="t-eng" aria-controls="p-eng" data-hash="eng" aria-selected="false">Eng menu</button>
+      <button class="tab" role="tab" id="t-kbju" aria-controls="p-kbju" data-hash="kbju" aria-selected="false" data-i18n="tKbju">КБЖУ</button>
+    </div>
+
+    <!-- Меню: их файлы «Меню 08.2026» -->
+    <section class="panel" id="p-menu" role="tabpanel" aria-labelledby="t-menu">
+      <div class="pages only-d"><img src="img/menu-pages/menu-d.jpg" alt="Меню ресторана «Сойка»: закуски, салаты, роллы, суши, сеты, хэндроллы, пельмени и бао, супы, вок, японский гриль, утка по-гонконгски, десерты"></div>
+      <div class="pages only-m">
+        <img src="img/menu-pages/menu-m1.jpg" alt="Меню ресторана «Сойка», страница 1" class="portrait">
+        <img src="img/menu-pages/menu-m2.jpg" alt="Меню ресторана «Сойка», страница 2" class="portrait" loading="lazy">
+      </div>
+    </section>
+
+    <!-- Спешл: их подпись + их страница «вагю» -->
+    <section class="panel" id="p-special" role="tabpanel" aria-labelledby="t-special" hidden>
+      <p class="note" data-i18n="special">Предложение действует с пятницы по воскресенье</p>
+      <div class="pages"><img src="img/menu-pages/special.jpg" alt="Спешл: вагю" class="portrait" loading="lazy"></div>
+    </section>
+
+    <!-- Бар и вино: две их страницы -->
+    <section class="panel" id="p-bar" role="tabpanel" aria-labelledby="t-bar" hidden>
+      <div class="pages">
+        <img src="img/menu-pages/bar1.jpg" alt="Барная карта: коктейли, безалкогольные коктейли, аперитивные, джин, виски, пиво и сидр, азиатские специалитеты, аперитивы и дижестивы, лимонады, софт, кофе, чай" class="portrait" loading="lazy">
+        <img src="img/menu-pages/bar2.jpg" alt="Винная карта от Анастасии Прудниковой" class="portrait" loading="lazy">
+      </div>
+    </section>
+
+    <!-- Детское меню -->
+    <section class="panel" id="p-kids" role="tabpanel" aria-labelledby="t-kids" hidden>
+      <div class="pages only-d"><img src="img/menu-pages/kids-d.jpg" alt="Детское меню" loading="lazy"></div>
+      <div class="pages only-m"><img src="img/menu-pages/kids-m.jpg" alt="Детское меню" class="portrait" loading="lazy"></div>
+    </section>
+
+    <!-- Eng menu -->
+    <section class="panel" id="p-eng" role="tabpanel" aria-labelledby="t-eng" hidden>
+      <div class="pages only-d"><img src="img/menu-pages/eng-d.jpg" alt="Soyka menu in English" loading="lazy"></div>
+      <div class="pages only-m">
+        <img src="img/menu-pages/eng-m1.jpg" alt="Soyka menu in English, page 1" class="portrait" loading="lazy">
+        <img src="img/menu-pages/eng-m2.jpg" alt="Soyka menu in English, page 2" class="portrait" loading="lazy">
+      </div>
+    </section>
+
+    <!-- КБЖУ: у них отдельная страница /kbju — у нас прямо здесь, данные перенесены с их страницы (data/kbju.js) -->
+    <section class="panel" id="p-kbju" role="tabpanel" aria-labelledby="t-kbju" hidden>
+      <div class="kb-tabs" role="tablist">
+        <button class="kb-tab" type="button" data-kb="m" aria-selected="true" data-i18n="kbM">КБЖУ Меню</button>
+        <button class="kb-tab" type="button" data-kb="d" aria-selected="false" data-i18n="kbD">КБЖУ Напитки</button>
+      </div>
+      <p class="lead" data-only-lang="en ja" hidden data-i18n="kbNote"></p>
+      <nav class="kb-nav" id="kbNav" aria-label="Разделы КБЖУ"></nav>
+      <div id="kbList"></div>
+    </section>
+
+    <p class="legal-note" data-i18n-html="legal">Содержащаяся на сайте справочная информация об ассортименте алкогольной продукции не является предложением о приобретении и доводится до сведения посетителей в соответствии с требованиями закона РФ от 07.02.1992 № 2300-1 «О защите прав потребителей» и Федерального закона от 28.12.2009 № 38-ФЗ «Об основах государственного регулирования торговой деятельности в Российской Федерации с учетом ограничений, установленных Федеральным законом от 13.03.2006 № 38-ФЗ «О рекламе» (в редакции Федерального закона от 27.07.2012 № 119-ФЗ).<br>Информация в меню не является публичной офертой.</p>
+  </div>
+</main>
+
+<script src="data/kbju.js"></script>
+<script>
+/* Переводы страницы (русский — в самой странице). ⚠️ Японский перевод сделали мы — проверить у носителя.
+   Картинки меню — их файлы на русском; для EN и 日本 по умолчанию открывается их «Eng menu».
+   Названия блюд и составы в КБЖУ — с их сайта, только на русском */
+window.PAGE_I18N = {
+  en: { title: 'Menu & bar list — Soyka', h1: 'Menu & bar list', tMenu: 'Menu', tSpecial: 'Special', tKids: 'Kids menu', tKbju: 'Nutrition',
+        special: 'Offer valid from Friday to Sunday', kbM: 'Nutrition: food', kbD: 'Nutrition: drinks',
+        kbNote: 'Dish names and ingredients are given in Russian, as on the restaurant’s website.',
+        kbYield: 'Serving size', kbFat: 'Fat', kbProt: 'Protein', kbCarb: 'Carbs', kbKcal: 'kcal', kbKj: 'kJ',
+        kb100: 'per 100 g', kbPort: 'per serving', kbComp: 'Ingredients',
+        legal: 'Reference information about alcoholic products on this website is not an offer to purchase. It is provided to guests in accordance with the Russian Federation Law No. 2300-1 of 07.02.1992 “On Consumer Rights Protection” and Federal Law No. 38-FZ of 28.12.2009 “On the Fundamentals of State Regulation of Trade Activities in the Russian Federation”, taking into account the restrictions of Federal Law No. 38-FZ of 13.03.2006 “On Advertising” (as amended by Federal Law No. 119-FZ of 27.07.2012).<br>The information in the menu is not a public offer.' },
+  ja: { title: 'メニュー＆バーリスト — ソイカ', h1: 'メニュー＆バーリスト', tMenu: 'メニュー', tSpecial: 'スペシャル', tKids: 'キッズメニュー', tKbju: '栄養成分',
+        special: '金曜日から日曜日までの限定メニューです', kbM: '栄養成分：フード', kbD: '栄養成分：ドリンク',
+        kbNote: '料理名と原材料は、レストランのサイトと同じくロシア語で記載しています。',
+        kbYield: '内容量', kbFat: '脂質', kbProt: 'たんぱく質', kbCarb: '炭水化物', kbKcal: 'kcal', kbKj: 'kJ',
+        kb100: '100gあたり', kbPort: '1人前あたり', kbComp: '原材料',
+        legal: '本サイトに掲載しているアルコール製品に関する情報は、購入のお申し込みではなく、ロシア連邦の法律（1992年2月7日付第2300-1号「消費者の権利保護について」、2009年12月28日付連邦法第38-FZ号「ロシア連邦における商業活動の国家規制の基本について」）に基づき、2006年3月13日付連邦法第38-FZ号「広告について」（2012年7月27日付連邦法第119-FZ号による改正）の制限を考慮してお知らせしています。<br>メニューの情報は公開オファーではありません。' }
+};
+</script>
+<script src="inner.js"></script>
+<script>
+/* Вкладки меню. Адрес запоминает вкладку: menu.html#bar сразу открывает «Бар и вино» */
+const tabs = [...document.querySelectorAll('.tab')];
+function openTab(hash, push) {
+  const t = tabs.find(x => x.dataset.hash === hash) || tabs[0];
+  tabs.forEach(x => {
+    const sel = x === t, p = document.getElementById(x.getAttribute('aria-controls'));
+    x.setAttribute('aria-selected', sel);
+    p.hidden = !sel;
+    p.classList.toggle('show', sel);
+  });
+  if (push) history.replaceState(null, '', '#' + t.dataset.hash);
+}
+tabs.forEach(t => t.addEventListener('click', () => openTab(t.dataset.hash, true)));
+// нажатие на страницу меню открывает её в полном размере (удобно на телефоне — можно приблизить)
+document.querySelectorAll('.pages img').forEach(img => {
+  const a = document.createElement('a');
+  a.href = img.getAttribute('src'); a.target = '_blank'; a.rel = 'noopener';
+  a.setAttribute('aria-label', 'Открыть крупно: ' + img.alt);
+  img.replaceWith(a); a.appendChild(img);
+});
+// без вкладки в адресе: на английском и японском сразу открываем их «Eng menu»
+openTab(location.hash.slice(1) || (SOYKA_LANG() === 'ru' ? 'menu' : 'eng'));
+addEventListener('hashchange', () => openTab(location.hash.slice(1)));
+document.addEventListener('langchange', e => {
+  if (!location.hash) openTab(e.detail === 'ru' ? 'menu' : 'eng');
+  renderKb(document.querySelector('.kb-tab[aria-selected="true"]')?.dataset.kb || 'm');   // подписи КБЖУ на новом языке
+});
+
+/* КБЖУ: строим список из данных их страницы. Каждая позиция: [название, выход, на 100 г, на порцию, состав] */
+const esc = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const L = (key, ru) => (window.SOYKA_T && SOYKA_T(key)) || ru;   // подпись на текущем языке
+function row(label, v) {
+  const c = v.split('|');
+  return `<tr><td>${label}</td>${[0, 1, 2, 3, 4].map(i => `<td>${c[i] || ''}</td>`).join('')}</tr>`;
+}
+function renderKb(kind) {
+  const secs = (window.KBJU || []).filter(s => s.tab === kind);
+  document.getElementById('kbNav').innerHTML = secs.length > 1 ? secs.map((s, i) => `<a href="#kb-${kind}-${i}">${esc(s.t)}</a>`).join('') : '';
+  document.getElementById('kbList').innerHTML = secs.map((s, i) => `
+    <div class="kb-sec" id="kb-${kind}-${i}">
+      <h3>${esc(s.t)}</h3>
+      <div class="kb-grid">${s.i.map(it => `
+        <div class="faq-item">
+          <button class="faq-q" type="button" aria-expanded="false"><span>${esc(it[0])}</span><i aria-hidden="true"></i></button>
+          <div class="faq-a"><div><div class="in">
+            ${it[1] ? `<p>${L('kbYield', 'Выход блюда')}: ${esc(it[1])}</p>` : ''}
+            <table class="kb-tbl"><tr><th></th><th>${L('kbFat', 'Жиры')}</th><th>${L('kbProt', 'Белки')}</th><th>${L('kbCarb', 'Углеводы')}</th><th>${L('kbKcal', 'Ккал')}</th><th>${L('kbKj', 'кДж')}</th></tr>
+              ${it[2] ? row(L('kb100', 'на 100 г'), it[2]) : ''}${it[3] ? row(L('kbPort', 'на порцию'), it[3]) : ''}</table>
+            ${it[4] ? `<p class="kb-comp">${L('kbComp', 'Состав')}: ${esc(it[4])}</p>` : ''}
+          </div></div></div>
+        </div>`).join('')}</div>
+    </div>`).join('');
+  document.querySelectorAll('#kbList .faq-q').forEach(q => q.addEventListener('click', () => {
+    const item = q.closest('.faq-item'), open = !item.classList.contains('open');
+    item.classList.toggle('open', open);
+    q.setAttribute('aria-expanded', open);
+  }));
+  document.querySelectorAll('.kb-tab').forEach(b => b.setAttribute('aria-selected', b.dataset.kb === kind));
+}
+document.querySelectorAll('.kb-tab').forEach(b => b.addEventListener('click', () => renderKb(b.dataset.kb)));
+document.getElementById('kbNav').addEventListener('click', e => {   // переход к разделу КБЖУ без смены вкладки в адресе
+  const a = e.target.closest('a'); if (!a) return;
+  e.preventDefault();
+  document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
+});
+renderKb('m');
+</script>
+</body>
+</html>
