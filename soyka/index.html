@@ -33,11 +33,9 @@ a{color:inherit;text-decoration:none}
 .hero-photo{position:absolute;inset:-4%;overflow:hidden}
 /* видео на фоне. Знак ВК — внизу ролика (83–92% высоты):
    на широком экране видна только середина ролика (32–68%), на узком/телефоне видео выше рамки на 25% и прижато к верху — низ со знаком уходит за край */
-.hero-photo video{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
+.hero-photo img{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
   transform:scale(1.04);filter:brightness(.55)}
-@media (min-aspect-ratio:9/10){ .hero-photo video{height:100%;object-position:50% 50%} }
-.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;
-  transform:scale(1.04);filter:brightness(.55)}
+@media (min-aspect-ratio:9/10){ .hero-photo img{height:100%;object-position:50% 50%} }
 
 /* синяя дымка Сойки поверх фото: сверху и снизу темнее, чтобы читался текст */
 .hero-shade{position:absolute;inset:0;pointer-events:none;
@@ -131,7 +129,7 @@ body.menu-open{overflow:hidden}
 .js-anim .curtain{opacity:1}
 .js-anim .top > *,.js-anim .kana span,.js-anim .scroll-hint{opacity:0}
 .js-anim .caption .line > span{transform:translateY(110%)}
-.js-anim .hero-photo img,.js-anim .hero-photo video{transform:scale(1.18)}
+.js-anim .hero-photo img{transform:scale(1.18)}
 
 /* ===== Общие заголовки разделов — как у Akaneya: маленькая японская подпись цветом + заголовок капсом ===== */
 .sec-head{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400}
@@ -429,9 +427,7 @@ html{background:var(--bg)}
 
 <section class="hero" id="hero">
   <div class="hero-photo" id="heroPhoto">
-    <!-- 15.11: видео повара Сойки (их клип @soykarest, Макару разрешили). Пока видео грузится — их фото.
-         Водяной знак ВК стоит внизу ролика и не двигается — видео растянуто и обрезано так, что нижняя полоска со знаком всегда за краем экрана -->
-    <video id="heroImg" src="video/hero-video.mp4" poster="img/hero-site.jpg" autoplay muted loop playsinline preload="auto" aria-label="Повар «Сойки» нарезает рыбу"></video>
+    <img id="heroImg" src="video/hero-motion.webp" alt="" fetchpriority="high" width="432" height="768">
   </div>
   <div class="hero-shade"></div>
 
@@ -1005,19 +1001,6 @@ if (!calm && window.anime && window.Motion) {
   drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
   drawer.querySelectorAll('.drawer-nav a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false); });
-})();
-
-/* Видео на первом экране крутим только первые 9,9 секунды:
-   с 10,2 с знак ВК переезжает наверх, а с 11,7 с идёт заставка их канала ВК — эти куски не показываем.
-   Проверяем время на каждом кадре (requestAnimationFrame), а не 4 раза в секунду, чтобы лишний кадр не проскочил */
-(function () {
-  const v = document.getElementById('heroImg');
-  if (!v || v.tagName !== 'VIDEO') return;
-  const END = 9.9;
-  (function watch() {
-    if (v.currentTime >= END) { v.currentTime = 0; if (v.paused) v.play().catch(() => {}); }
-    requestAnimationFrame(watch);
-  })();
 })();
 
 /* Вопросы и ответы: нажал на вопрос — ответ плавно раскрывается, нажал ещё раз — закрывается.
