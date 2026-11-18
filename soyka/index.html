@@ -33,15 +33,11 @@ a{color:inherit;text-decoration:none}
 .hero-photo{position:absolute;inset:-4%;overflow:hidden}
 /* видео на фоне. Знак ВК — внизу ролика (83–92% высоты):
    на широком экране видна только середина ролика (32–68%), на узком/телефоне видео выше рамки на 25% и прижато к верху — низ со знаком уходит за край */
-.hero-photo video,.hero-photo .hero-motion{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
+.hero-photo video{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
   transform:scale(1.04);filter:brightness(.55)}
-@media (min-aspect-ratio:9/10){ .hero-photo video,.hero-photo .hero-motion{height:100%;object-position:50% 50%} }
-/* 16.11: видео невидимо, пока не пошло, потом плавно проявляется */
-.hero-photo video{opacity:0;transition:opacity 1.2s ease}
-.hero-photo video.ready{opacity:1}
-.hero-play{position:absolute;z-index:2;left:50%;bottom:72px;transform:translateX(-50%);
-  padding:10px 16px;border:1px solid rgba(255,255,255,.7);border-radius:4px;
-  background:var(--bg);color:var(--white);font:inherit;cursor:pointer}
+@media (min-aspect-ratio:9/10){ .hero-photo video{height:100%;object-position:50% 50%} }
+.hero-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 45%;
+  transform:scale(1.04);filter:brightness(.55)}
 
 /* синяя дымка Сойки поверх фото: сверху и снизу темнее, чтобы читался текст */
 .hero-shade{position:absolute;inset:0;pointer-events:none;
@@ -135,7 +131,7 @@ body.menu-open{overflow:hidden}
 .js-anim .curtain{opacity:1}
 .js-anim .top > *,.js-anim .kana span,.js-anim .scroll-hint{opacity:0}
 .js-anim .caption .line > span{transform:translateY(110%)}
-.js-anim .hero-photo video{transform:scale(1.18)}
+.js-anim .hero-photo img,.js-anim .hero-photo video{transform:scale(1.18)}
 
 /* ===== Общие заголовки разделов — как у Akaneya: маленькая японская подпись цветом + заголовок капсом ===== */
 .sec-head{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400}
@@ -433,8 +429,9 @@ html{background:var(--bg)}
 
 <section class="hero" id="hero">
   <div class="hero-photo" id="heroPhoto">
-    <video id="heroImg" src="video/hero-video.mp4" data-fallback="img/hero-site.jpg" tabindex="-1" autoplay muted loop playsinline preload="auto" aria-label="Повар «Сойки» нарезает рыбу"></video>
-    <img class="hero-motion" id="heroMotion" data-src="video/hero-motion.webp" alt="" hidden>
+    <!-- 15.11: видео повара Сойки (их клип @soykarest, Макару разрешили). Пока видео грузится — их фото.
+         Водяной знак ВК стоит внизу ролика и не двигается — видео растянуто и обрезано так, что нижняя полоска со знаком всегда за краем экрана -->
+    <video id="heroImg" src="video/hero-video.mp4" poster="img/hero-site.jpg" autoplay muted loop playsinline preload="auto" aria-label="Повар «Сойки» нарезает рыбу"></video>
   </div>
   <div class="hero-shade"></div>
 
@@ -468,7 +465,6 @@ html{background:var(--bg)}
     </p>
   </div>
 
-  <button class="hero-play" id="heroPlay" type="button" data-i18n="playVideo" hidden>Включить видео</button>
   <div class="scroll-hint" id="scrollHint"></div>
 </section>
 
@@ -714,7 +710,7 @@ html{background:var(--bg)}
 <script>
 /* Выбор языка. Основной — русский. Переводим только тексты, которые уже есть на сайте Сойки (ничего своего не добавляем) */
 const I18N = {
-  ru: { menu: 'Меню', book: 'Забронировать', delivery: 'Доставка', playVideo: 'Включить видео',
+  ru: { menu: 'Меню', book: 'Забронировать', delivery: 'Доставка',
         tag1: 'Ваш любимый паназиатский ресторан', tag2: 'в Екатеринбурге',
         intTitle: 'Интерьер',
         intText: '«Сойка» расположилась в старинном особняке с белыми кирпичными сводами, который относится к архитектурному ансамблю усадьбы купца Тупикова. Интерьер — лимонно-изумрудный с золотой барной стойкой и изобилием зелени.',
@@ -740,7 +736,7 @@ const I18N = {
         aw4: '2 звезды в номинации «Лучшая оригинальная карта» по версии Russian Wine Awards 2024',
         aw5: '2 звезды в номинации «Лучший выбор вин по бокалам» по версии Russian Wine Awards 2024',
         aw6: 'Дважды лучший шеф-сомелье Урала по версии WhereToEat 2023, 2025', aw6who: 'Анастасия Прудникова' },
-  en: { menu: 'Menu', book: 'Book a table', delivery: 'Delivery', playVideo: 'Play video',
+  en: { menu: 'Menu', book: 'Book a table', delivery: 'Delivery',
         tag1: 'Your favourite pan-Asian restaurant', tag2: 'in Yekaterinburg',
         intTitle: 'Interior',
         intText: 'Soyka is set in an old mansion with white brick vaults, part of the architectural ensemble of the merchant Tupikov’s estate. The interior is lemon and emerald, with a golden bar counter and an abundance of greenery.',
@@ -775,7 +771,7 @@ const I18N = {
         aw4: '2 stars in “Best Original Wine List”, Russian Wine Awards 2024',
         aw5: '2 stars in “Best Selection of Wines by the Glass”, Russian Wine Awards 2024',
         aw6: 'Twice Best Head Sommelier of the Urals by WhereToEat, 2023 and 2025', aw6who: 'Anastasia Prudnikova' },
-  ja: { menu: 'メニュー', book: 'ご予約', delivery: 'デリバリー', playVideo: '動画を再生',
+  ja: { menu: 'メニュー', book: 'ご予約', delivery: 'デリバリー',
         tag1: 'エカテリンブルクで愛される', tag2: 'パンアジアン・レストラン',
         intTitle: 'インテリア',
         intText: '「ソイカ」は、商人トゥピコフの屋敷の建築群に属する、白いレンガのヴォールト天井が残る古い邸宅にあります。インテリアはレモンとエメラルドの色合いに、金色のバーカウンターと豊かな緑。',
@@ -832,66 +828,6 @@ document.querySelectorAll('.langs button').forEach(b => b.addEventListener('clic
 let savedLang = 'ru';
 try { savedLang = localStorage.getItem('soyka-lang') || 'ru'; } catch (e) {}
 setLang(savedLang);
-</script>
-
-<script>
-(function () {
-  const video = document.getElementById('heroImg');
-  const motion = document.getElementById('heroMotion');
-  const button = document.getElementById('heroPlay');
-  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
-  const loopEnd = 9.9;
-  let frame;
-
-  function revealMotion() {
-    motion.hidden = reducedMotion.matches || (!video.paused && !video.error);
-  }
-
-  function showFallback() {
-    video.poster = video.dataset.fallback;
-    video.classList.add('ready');
-    if (!reducedMotion.matches && !motion.hasAttribute('src')) {
-      motion.src = motion.dataset.src;
-    }
-    if (motion.complete && motion.naturalWidth) revealMotion();
-  }
-
-  function startVideo() {
-    video.play().catch(error => {
-      if (error.name === 'AbortError') return;
-      showFallback();
-      button.hidden = error.name !== 'NotAllowedError';
-    });
-  }
-
-  function watchFrame() {
-    if (video.paused) return;
-    // Зацикливаем фрагмент до заставки клипа.
-    if (video.currentTime >= loopEnd) video.currentTime = 0;
-    frame = requestAnimationFrame(watchFrame);
-  }
-
-  video.addEventListener('playing', () => {
-    video.classList.add('ready');
-    motion.hidden = true;
-    if (document.activeElement === button) video.focus();
-    button.hidden = true;
-    cancelAnimationFrame(frame);
-    watchFrame();
-  });
-  video.addEventListener('error', () => {
-    showFallback();
-    button.hidden = true;
-  });
-  motion.addEventListener('load', revealMotion);
-  button.addEventListener('click', startVideo);
-
-  if (!video.paused && video.readyState >= 3) {
-    video.classList.add('ready');
-    watchFrame();
-  }
-  startVideo();
-})();
 </script>
 
 <!-- Библиотеки анимаций (те же версии, что на портфолио): anime.js — открытие экрана, Motion — прокрутка и «дыхание» фото -->
@@ -1069,6 +1005,19 @@ if (!calm && window.anime && window.Motion) {
   drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
   drawer.querySelectorAll('.drawer-nav a').forEach(a => a.addEventListener('click', () => setOpen(false)));
   addEventListener('keydown', e => { if (e.key === 'Escape' && drawer.classList.contains('open')) setOpen(false); });
+})();
+
+/* Видео на первом экране крутим только первые 9,9 секунды:
+   с 10,2 с знак ВК переезжает наверх, а с 11,7 с идёт заставка их канала ВК — эти куски не показываем.
+   Проверяем время на каждом кадре (requestAnimationFrame), а не 4 раза в секунду, чтобы лишний кадр не проскочил */
+(function () {
+  const v = document.getElementById('heroImg');
+  if (!v || v.tagName !== 'VIDEO') return;
+  const END = 9.9;
+  (function watch() {
+    if (v.currentTime >= END) { v.currentTime = 0; if (v.paused) v.play().catch(() => {}); }
+    requestAnimationFrame(watch);
+  })();
 })();
 
 /* Вопросы и ответы: нажал на вопрос — ответ плавно раскрывается, нажал ещё раз — закрывается.
