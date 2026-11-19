@@ -27,21 +27,16 @@ body{font-family:'Noir',system-ui,sans-serif;overflow-x:hidden}
 a{color:inherit;text-decoration:none}
 
 /* ===== Первый экран ===== */
-.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:var(--bg)}
+.hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:rgb(var(--flow-rgb))}
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:22%;pointer-events:none;
+  background:linear-gradient(to bottom,rgb(var(--flow-rgb) / 0),rgb(var(--flow-rgb) / .18) 34%,rgb(var(--flow-rgb) / .48) 65%,rgb(var(--flow-rgb)) 99%)}
 
-/* фото: медленный наезд камеры (как будто видео) */
-.hero-photo{position:absolute;inset:-4%;overflow:hidden}
-/* видео на фоне. Знак ВК — внизу ролика (83–92% высоты):
-   на широком экране видна только середина ролика (32–68%), на узком/телефоне видео выше рамки на 25% и прижато к верху — низ со знаком уходит за край */
-.hero-photo img{position:absolute;left:0;top:0;width:100%;height:130%;object-fit:cover;object-position:50% 0%;
-  transform:scale(1.04);filter:brightness(.55)}
-@media (min-aspect-ratio:9/10){ .hero-photo img{height:100%;object-position:50% 50%} }
-
-/* синяя дымка Сойки поверх фото: сверху и снизу темнее, чтобы читался текст */
-.hero-shade{position:absolute;inset:0;pointer-events:none;
+.hero-photo{position:absolute;inset:0;overflow:hidden;opacity:var(--hero-video-opacity,1)}
+.hero-photo video{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.035)}
+.hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(180deg, rgba(16,29,54,.85) 0%, rgba(16,29,54,0) 22%, rgba(var(--flow-rgb),0) 50%, rgba(var(--flow-rgb),.7) 80%, rgb(var(--flow-rgb)) 100%),   /* низ фото полностью растворяется в фоне */
-    radial-gradient(90% 70% at 50% 50%, rgba(26,46,83,0) 40%, rgba(16,29,54,.55) 100%)}
+    linear-gradient(to bottom,rgb(var(--flow-rgb) / .44),rgb(var(--flow-rgb) / .20) 7%,rgb(var(--flow-rgb) / 0) 17%),
+    linear-gradient(90deg,rgb(var(--flow-rgb) / .54),rgb(var(--flow-rgb) / .26) 6%,rgb(var(--flow-rgb) / 0) 18% 82%,rgb(var(--flow-rgb) / .26) 94%,rgb(var(--flow-rgb) / .54))}
 
 /* шапка: как у Akaneya — слева меню, по центру логотип, справа действия */
 .top{position:absolute;left:0;right:0;top:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
@@ -117,8 +112,12 @@ body.menu-open{overflow:hidden}
 .caption .line{display:block;overflow:hidden}
 .caption .line > span{display:block}
 
-.scroll-hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:10;width:1px;height:40px;background:rgba(255,255,255,.25);overflow:hidden}
-.scroll-hint::after{content:"";position:absolute;left:0;top:0;width:1px;height:100%;background:#fff;animation:drip 2.2s cubic-bezier(.7,0,.2,1) infinite}
+.scroll-hint{position:absolute;left:50%;bottom:24px;transform:translateX(-50%);z-index:10;width:48px;height:44px;overflow:hidden}
+.scroll-hint::before,.scroll-hint::after{content:"";position:absolute;left:50%;top:0;width:1px;height:100%}
+.scroll-hint::before{background:rgba(255,255,255,.25)}
+.scroll-hint::after{background:#fff;animation:drip 2.2s cubic-bezier(.7,0,.2,1) infinite}
+.scroll-hint span{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+.scroll-hint:focus-visible{outline:1px solid #fff;outline-offset:3px}
 @keyframes drip{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
 
 /* занавес при загрузке */
@@ -129,7 +128,6 @@ body.menu-open{overflow:hidden}
 .js-anim .curtain{opacity:1}
 .js-anim .top > *,.js-anim .kana span,.js-anim .scroll-hint{opacity:0}
 .js-anim .caption .line > span{transform:translateY(110%)}
-.js-anim .hero-photo img{transform:scale(1.18)}
 
 /* ===== Общие заголовки разделов — как у Akaneya: маленькая японская подпись цветом + заголовок капсом ===== */
 .sec-head{text-align:center;font-family:'Noto Serif JP','Noto Serif',serif;font-weight:400}
@@ -356,7 +354,7 @@ body.menu-open{overflow:hidden}
 /* ===== Плавное переливание цвета фона между блоками =====
    Фон — один слой на весь экран, его цвет плавно меняется при прокрутке (скрипт внизу).
    Блоки прозрачные, поэтому переходов-«швов» между ними нет */
-:root{--flow-rgb:16,29,54}
+:root{--flow-rgb:16 29 54}
 .bg-flow{position:fixed;inset:0;z-index:-1;background:rgb(var(--flow-rgb))}
 html,body{background:transparent}
 html{background:var(--bg)}
@@ -387,6 +385,8 @@ html{background:var(--bg)}
   .caption{font-size:17px;width:94vw}
 }
 @media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero-photo{opacity:1}
   .scroll-hint::after{animation:none}
 }
 </style>
@@ -426,10 +426,15 @@ html{background:var(--bg)}
 </div>
 
 <section class="hero" id="hero">
-  <div class="hero-photo" id="heroPhoto">
-    <img id="heroImg" src="video/hero-motion.webp" alt="" fetchpriority="high" width="432" height="768">
+  <div class="hero-photo" id="heroPhoto" aria-hidden="true">
+    <video id="heroVideo" src="video/soyka-hero.webm" poster="video/soyka-hero-poster.jpg"
+           muted playsinline loop preload="none" width="1080" height="1920"></video>
   </div>
-  <div class="hero-shade"></div>
+  <script>
+    if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      document.getElementById('heroVideo').play().catch(() => {});
+    }
+  </script>
 
   <header class="top">
     <div class="top-left">
@@ -461,7 +466,7 @@ html{background:var(--bg)}
     </p>
   </div>
 
-  <div class="scroll-hint" id="scrollHint"></div>
+  <a class="scroll-hint" id="scrollHint" href="#interior"><span data-i18n="intTitle">Интерьер</span></a>
 </section>
 
 <!-- ===== Блок 1. Интерьер / о ресторане — как HISTORY у Akaneya: японская подпись, заголовок, два фото рядом, текст ===== -->
@@ -839,8 +844,6 @@ if (!calm && window.anime && window.Motion) {
   /* anime.js — открытие первого экрана, по шагам: */
   // 1) синий занавес растворяется
   aAnimate('#curtain', { opacity: [1, 0], duration: 1400, ease: 'inOutQuad' });
-  // 2) фото медленно «отъезжает» — камера будто отходит назад
-  aAnimate('#heroImg', { scale: [1.18, 1.04], duration: 3600, ease: 'outQuart' });
   // 3) знаки カケス проявляются по одному сверху вниз, из лёгкого размытия
   aAnimate('#kana span', {
     opacity: [0, .55], translateY: [14, 0],
@@ -852,12 +855,6 @@ if (!calm && window.anime && window.Motion) {
   // 5) шапка и полоска «листай вниз» появляются последними
   aAnimate('.top > *', { opacity: [0, 1], delay: stagger(80, { start: 1900 }), duration: 1000, ease: 'outQuad' });
   aAnimate('#scrollHint', { opacity: [0, 1], delay: 2300, duration: 800 });
-
-  /* Motion — после открытия фото еле заметно «дышит», как кадр из видео */
-  setTimeout(() => {
-    animate('#heroImg', { scale: [1.04, 1.1], x: ['0%', '-1.5%'] },
-      { duration: 18, ease: 'easeInOut', repeat: Infinity, repeatType: 'reverse' });
-  }, 3600);
 
   /* Motion — при прокрутке фото уезжает медленнее страницы (параллакс), знаки и слоган растворяются */
   const photo = document.getElementById('heroPhoto');
@@ -1037,10 +1034,16 @@ document.querySelectorAll('.mb-photo').forEach((box, k) => {
     ['contacts', [13, 23, 44]]     // #0d172c — самый глубокий, финал страницы
   ].map(([id, c]) => ({ el: document.getElementById(id), c }));
   const root = document.documentElement;
+  const hero = stops[0].el;
   const smooth = t => t * t * (3 - 2 * t);
   function paint() {
     const mid = innerHeight / 2;
-    const centers = stops.map(s => { const r = s.el.getBoundingClientRect(); return r.top + r.height / 2; });
+    const bounds = stops.map(s => s.el.getBoundingClientRect());
+    const centers = bounds.map(r => r.top + r.height / 2);
+    const firstScreen = bounds[0];
+    const progress = -firstScreen.top / firstScreen.height;
+    const fade = Math.max(0, Math.min(1, (progress - .12) / .76));
+    hero.style.setProperty('--hero-video-opacity', 1 - smooth(fade));
     let c = stops[0].c;
     if (mid >= centers[centers.length - 1]) c = stops[stops.length - 1].c;
     else for (let i = 0; i < stops.length - 1; i++) {
@@ -1050,7 +1053,7 @@ document.querySelectorAll('.mb-photo').forEach((box, k) => {
         break;
       }
     }
-    root.style.setProperty('--flow-rgb', c.join(','));
+    root.style.setProperty('--flow-rgb', c.join(' '));
   }
   addEventListener('scroll', paint, { passive: true });
   addEventListener('resize', paint);
