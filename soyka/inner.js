@@ -61,7 +61,6 @@
     </div>
     <a class="top-logo" href="index.html" aria-label="Сойка — на главную" data-i18n-aria="home"><img src="img/logo.png" alt="Сойка"></a>
     <div class="top-right">
-      <a class="hide-m${page === 'menu' ? ' on' : ''}" href="menu.html" data-i18n="menu">Меню</a>
       <a class="hide-m${page === 'book' ? ' on' : ''}" href="bronirovanie.html" data-i18n="book">Забронировать</a>
       <a class="deliv" href="${DELIV}" target="_blank" rel="noopener" data-i18n="delivery">Доставка</a>
     </div>

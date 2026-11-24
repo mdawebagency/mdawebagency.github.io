@@ -234,6 +234,10 @@
     .final .lead { margin: 22px auto 0; position: relative; }
     .contacts { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; position: relative; }
     .hours { color: var(--muted); font-size: 14px; margin-top: 20px; position: relative; }
+    /* «Посмотреть работы» в «Контактах»: прозрачная, обводка и текст цвета акцента, по центру под «Написать можно в любое время» (24.11) */
+    .works-link { display: flex; justify-content: center; margin-top: 28px; position: relative; }
+    .btn-outline { background: transparent; color: var(--accent); border-color: var(--accent); }
+    .btn-outline:hover { background: color-mix(in srgb, var(--accent) 12%, transparent); }
     footer { border-top: 1px solid var(--line); padding: 26px 0; color: var(--muted); font-size: 13px; }
     footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 
@@ -484,6 +488,7 @@
         <a class="btn btn-main" href="tel:+79122438698">+7 912 243-86-98</a>
       </div>
       <p class="hours" data-reveal>Написать можно в любое время</p>
+      <div class="works-link" data-reveal><a class="btn btn-outline" href="#works">Посмотреть работы</a></div>
     </div>
   </section>
 </main>

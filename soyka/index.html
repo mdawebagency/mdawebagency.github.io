@@ -4,6 +4,20 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Сойка — суши и гриль, Екатеринбург</title>
+<!-- 24.11: превью ссылки в Telegram/WhatsApp/VK и иконка вкладки -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Сойка">
+<meta property="og:title" content="Сойка — суши и гриль, Екатеринбург">
+<meta property="og:description" content="Ваш любимый паназиатский ресторан в Екатеринбурге. ул. 8 Марта, 6.">
+<meta property="og:url" content="https://mdawebagency.github.io/soyka/">
+<meta property="og:image" content="https://mdawebagency.github.io/soyka/img/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="ru_RU">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/apple-touch-icon.png">
+<meta name="theme-color" content="#101d36">
 <meta name="description" content="Ваш любимый паназиатский ресторан в Екатеринбурге. ул. 8 Марта, 6.">
 <!-- Шрифт подписи — как у референса Akaneya (Noto Serif JP); Noto Serif — запасной для русских букв -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,6 +34,7 @@
   --bg:#101d36;     /* фон: синий Сойки, только глубже — как ночь у Akaneya */
   --red:#d94e43;    /* их красный */
   --white:#fff;
+  --photo-r:22px;   /* 24.11: скругление фото в «Интерьере» и «Меню и бар» (столько же в анимации шторки — round 22px) */
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html,body{background:var(--bg);color:var(--white)}
@@ -28,15 +43,19 @@ a{color:inherit;text-decoration:none}
 
 /* ===== Первый экран ===== */
 .hero{position:relative;height:100vh;height:100svh;min-height:560px;overflow:hidden;background:rgb(var(--flow-rgb))}
-.hero::after{content:"";position:absolute;inset:auto 0 0;height:22%;pointer-events:none;
-  background:linear-gradient(to bottom,rgb(var(--flow-rgb) / 0),rgb(var(--flow-rgb) / .18) 34%,rgb(var(--flow-rgb) / .48) 65%,rgb(var(--flow-rgb)) 99%)}
+/* 24.11: переход в «Интерьер» длиннее и мягче — низ экрана растворяется в фоне на 45% высоты */
+.hero::after{content:"";position:absolute;inset:auto 0 0;height:45%;pointer-events:none;z-index:5;
+  background:linear-gradient(to bottom,rgb(var(--flow-rgb) / 0),rgb(var(--flow-rgb) / .08) 18%,rgb(var(--flow-rgb) / .24) 36%,
+    rgb(var(--flow-rgb) / .46) 54%,rgb(var(--flow-rgb) / .70) 72%,rgb(var(--flow-rgb) / .90) 87%,rgb(var(--flow-rgb)) 100%)}
 
 .hero-photo{position:absolute;inset:0;overflow:hidden;opacity:var(--hero-video-opacity,1)}
 .hero-photo video{display:block;width:100%;height:100%;object-fit:cover;object-position:center;transform:scale(1.035)}
+/* 24.11: полупрозрачное синее затемнение по кругу (виньетка) + лёгкая синяя дымка по всему кадру */
 .hero-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
   background:
-    linear-gradient(to bottom,rgb(var(--flow-rgb) / .44),rgb(var(--flow-rgb) / .20) 7%,rgb(var(--flow-rgb) / 0) 17%),
-    linear-gradient(90deg,rgb(var(--flow-rgb) / .54),rgb(var(--flow-rgb) / .26) 6%,rgb(var(--flow-rgb) / 0) 18% 82%,rgb(var(--flow-rgb) / .26) 94%,rgb(var(--flow-rgb) / .54))}
+    radial-gradient(ellipse 72% 68% at 50% 46%,rgb(var(--flow-rgb) / .14) 0%,rgb(var(--flow-rgb) / .22) 40%,rgb(var(--flow-rgb) / .48) 72%,rgb(var(--flow-rgb) / .78) 100%),
+    linear-gradient(to bottom,rgb(var(--flow-rgb) / .55),rgb(var(--flow-rgb) / .22) 10%,rgb(var(--flow-rgb) / 0) 22%),
+    linear-gradient(90deg,rgb(var(--flow-rgb) / .45),rgb(var(--flow-rgb) / 0) 16% 84%,rgb(var(--flow-rgb) / .45))}
 
 /* шапка: как у Akaneya — слева меню, по центру логотип, справа действия */
 .top{position:absolute;left:0;right:0;top:0;z-index:20;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;
@@ -121,7 +140,19 @@ body.menu-open{overflow:hidden}
 @keyframes drip{0%{transform:translateY(-100%)}100%{transform:translateY(100%)}}
 
 /* занавес при загрузке */
-.curtain{position:fixed;inset:0;background:var(--bg);z-index:100;pointer-events:none;opacity:0}
+.curtain{position:fixed;inset:0;background:var(--bg);z-index:100;pointer-events:none;opacity:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:clamp(28px,5vh,44px)}
+/* 24.11: заставка при первом заходе — крупные カケス проявляются по одному, под ними тонкая линия загрузки.
+   Пока она идёт, грузится видео; потом знаки тают, занавес растворяется и открывается первый экран */
+.splash-kana{height:min(34vh,270px);aspect-ratio:198/536;display:flex;flex-direction:column;opacity:0}
+.splash-kana span{flex:1;background:url('img/collab-kana.png') no-repeat;background-size:100% 300%;
+  filter:brightness(0) invert(1);opacity:0}
+.splash-kana span:nth-child(1){background-position:0 0}
+.splash-kana span:nth-child(2){background-position:0 50%}
+.splash-kana span:nth-child(3){background-position:0 100%}
+.splash-line{display:block;width:clamp(90px,12vw,140px);height:1px;background:rgba(255,255,255,.18);overflow:hidden;opacity:0}
+.splash-line::after{content:"";display:block;height:100%;background:rgba(255,255,255,.8);transform:scaleX(var(--load,0));transform-origin:left}
+.splash .splash-kana,.splash .splash-line{opacity:1}
 
 /* стартовые состояния — только если анимации загрузились (класс js-anim ставит скрипт).
    Если библиотеки не загрузятся, всё просто видно сразу */
@@ -137,7 +168,7 @@ body.menu-open{overflow:hidden}
 /* ===== Блок «Интерьер» ===== */
 .story{padding:clamp(90px,14vh,160px) clamp(16px,4vw,56px) clamp(40px,6vh,70px);display:flex;flex-direction:column;align-items:center}
 .story-photos{display:flex;align-items:flex-start;gap:clamp(10px,1.4vw,20px);justify-content:center;margin-top:clamp(40px,6vh,64px);width:100%}
-.ph{margin:0;width:min(30vw,380px);aspect-ratio:2/3;overflow:hidden;position:relative}
+.ph{margin:0;width:min(30vw,380px);aspect-ratio:2/3;overflow:hidden;position:relative;border-radius:var(--photo-r)}   /* 24.11: скруглённые углы */
 .ph img{width:100%;height:115%;object-fit:cover;display:block;transform:translateY(-6%)}
 .ph-b{margin-top:clamp(40px,8vh,90px)}   /* второе фото чуть ниже — живая лесенка */
 .story-text{max-width:680px;margin-top:clamp(40px,6vh,64px);text-align:center;
@@ -158,7 +189,7 @@ body.menu-open{overflow:hidden}
 .strip-btn[disabled]{opacity:.3;cursor:default}
 @media (max-width:720px){.strip-btn{width:42px;height:42px;margin-top:-21px}}
 .int-track{display:flex;gap:clamp(10px,1.4vw,20px);width:max-content;padding-left:8vw;will-change:transform}
-.int-track img{width:clamp(200px,22vw,320px);aspect-ratio:2/3;object-fit:cover;display:block}
+.int-track img{width:clamp(200px,22vw,320px);aspect-ratio:2/3;object-fit:cover;display:block;border-radius:var(--photo-r)}
 .int-track img:nth-child(even){margin-top:clamp(30px,6vh,70px)}
 
 /* шагающая птица — из прошлой версии (sections.css), только размер чуть меньше */
@@ -227,7 +258,7 @@ body.menu-open{overflow:hidden}
 .mb-grid{align-items:start}
 .mb-card:nth-child(2){margin-top:clamp(60px,10vh,120px)}   /* 15.11: «лесенка» — бар ниже меню, как фото в «Интерьере» */
 @media (max-width:720px){ .mb-card:nth-child(2){margin-top:56px} }
-.mb-photo{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:rgba(0,0,0,.2)}
+.mb-photo{position:relative;width:100%;aspect-ratio:4/5;overflow:hidden;background:rgba(0,0,0,.2);border-radius:var(--photo-r)}
 .mb-photo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.06);
   transition:opacity 1.4s ease, transform 6s ease-out}
 .mb-photo img.on{opacity:1;transform:scale(1)}   /* фото плавно сменяют друг друга и чуть «отъезжают» */
@@ -235,7 +266,7 @@ body.menu-open{overflow:hidden}
 .mb-card p{margin-top:12px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:16px;line-height:1.7;color:rgba(255,255,255,.72)}
 .mb-card .see-link{margin-top:20px}
 @media (max-width:720px){ .mb-grid{grid-template-columns:minmax(0,440px)} }
-.js-anim .mb-photo{clip-path:inset(100% 0 0 0)}
+.js-anim .mb-photo{clip-path:inset(100% 0 0 0 round 22px)}
 /* птицы над карточками: по центру карточки */
 .card-bird{align-self:center;margin:0 auto 8px}
 /* гейша из прошлой версии: свои точки сгиба и шаг пошире (картинка маленькая) */
@@ -267,30 +298,8 @@ body.menu-open{overflow:hidden}
 @keyframes bob{0%,100%{transform:translateY(0) rotate(-.8deg)}50%{transform:translateY(-2.5px) rotate(.8deg)}}
 @media (prefers-reduced-motion:reduce){.bird-body,.paw{animation:none}}
 
-/* ===== Блок «Коллаборация» ===== */
-.collab2{position:relative;padding:clamp(100px,16vh,180px) clamp(16px,4vw,56px) 10px;display:flex;   /* 16.11: снизу меньше — «Контакты» ближе */justify-content:center;overflow:hidden}
-.collab-frame{position:relative;z-index:1;width:min(100%,760px);min-height:clamp(320px,46vh,450px);   /* 15.11: рамку убрали */
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:48px 24px 0;
-  font-family:'Noto Serif JP','Noto Serif',serif}
-.collab-frame .jp{font-size:16px;line-height:1.7;letter-spacing:.08em;color:#fff}
-.collab-frame h2{margin-top:6px;font-weight:400;font-size:clamp(24px,2.6vw,36px);line-height:1.3;color:rgba(255,255,255,.9)}
-.collab-frame p{margin-top:20px;max-width:520px;font-size:clamp(16px,1.3vw,19px);line-height:1.7;color:rgba(255,255,255,.72)}
-.collab-frame .see-link{margin-top:32px}
-/* 15.11: カケス вплотную к правому краю и чуть уходят за него — как у них на сайте */
-.collab-kana2{position:absolute;right:-36px;top:calc(33% + 72px);   /* 16.11: блок стал ниже на ~220px — знаки остаются там же, где были */   /* 15.11: выше полукруга (Макар: «ещё повыше») */transform:translateY(-50%);height:min(56vh,520px)}
-.collab-kana2 span,.js-anim .collab-kana2 span{opacity:.55}
-/* полукруг слева — как красный круг у них: круг стоит за левым краем, видна правая половина */
-.collab-half{position:absolute;left:0;top:50%;width:clamp(150px,17vw,230px);aspect-ratio:1/2;transform:translateY(-50%);
-  border-radius:0 999px 999px 0;background:#fff;opacity:.55}   /* 15.11: белый, как カケス (было их красное #dd3935) */
-@media (max-width:900px){
-  .collab-kana2{height:min(26vh,190px);right:-20px;top:22%}
-  .collab-half{width:64px;top:auto;bottom:36px;transform:none}   /* на телефоне ниже текста, чтобы не налезал */
-  .collab2{padding-bottom:170px}
-}
-.js-anim .collab-frame{clip-path:inset(50% 50% 50% 50%)}
-
 /* ===== Блок «Вопросы и ответы» — как よくある質問 у Akaneya ===== */
-.faq{padding:clamp(80px,12vh,140px) clamp(16px,4vw,56px);display:flex;flex-direction:column;align-items:center}
+.faq{padding:clamp(80px,12vh,140px) clamp(16px,4vw,56px) clamp(30px,5vh,60px);   /* 24.11: снизу меньше — «Контакты» сразу после вопросов */display:flex;flex-direction:column;align-items:center}
 .faq-list{width:min(100%,820px);margin-top:clamp(40px,6vh,64px);border-top:1px solid rgba(255,255,255,.2)}
 .faq-item{border-bottom:1px solid rgba(255,255,255,.2)}
 .faq-q{width:100%;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 4px;background:none;border:0;cursor:pointer;
@@ -315,13 +324,39 @@ body.menu-open{overflow:hidden}
 /* ===== Блок «Контакты» — как CONTACT у Akaneya: подписи мелко, данные крупнее ===== */
 .contacts2{padding:clamp(24px,4vh,40px) clamp(16px,4vw,56px) clamp(60px,9vh,100px);   /* 16.11 Макар: заголовок выше, без пустого места (было до 140px) */display:flex;flex-direction:column;align-items:center}
 .ct-grid{width:min(100%,1320px);margin-top:clamp(40px,6vh,64px);display:grid;grid-template-columns:minmax(260px,.75fr) minmax(0,2.2fr);   /* 15.11: карта шире */gap:clamp(28px,4vw,64px);align-items:stretch}
-.ct-info{display:flex;flex-direction:column;gap:22px;font-family:'Noto Serif JP','Noto Serif',serif}
-.ct-info dt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.5)}
+/* 24.11: их зелёные листья (с блока контактов soyka.rest) по бокам — выезжают с краёв и тихо покачиваются */
+.contacts2{position:relative;overflow:hidden}
+.contacts2 > .sec-head,.contacts2 > .ct-grid{position:relative;z-index:1}
+/* 24.11 (3): Макар — листья чуть меньше, целиком на экране и ближе к центру, за текстом */
+.ct-leaf{position:absolute;z-index:0;pointer-events:none;width:clamp(200px,21vw,400px);aspect-ratio:1;
+  transition:opacity 1.4s ease,translate 1.6s cubic-bezier(.22,1,.36,1)}
+.ct-leaf img{display:block;width:100%;height:100%;animation:leafSway 7s ease-in-out infinite}
+.ct-leaf.l{left:calc(clamp(56px,9vw,170px) - 4vw);top:26%}     /* за колонкой адреса и часов */
+.ct-leaf.l img{transform-origin:82% 82%;filter:brightness(.62) saturate(1.15)}   /* качается от черенка; темнее — текст поверх читается */
+.ct-leaf.r{right:calc(clamp(56px,9vw,170px) - 7vw);top:-1%}    /* выглядывает из-за верхнего правого угла карты */
+@media (min-width:901px){ .contacts2{padding-left:clamp(56px,9vw,170px);padding-right:clamp(56px,9vw,170px)} }   /* место для листьев по бокам */
+.ct-leaf.r img{transform-origin:30% 86%;animation-duration:8.5s;animation-delay:-3s}
+@keyframes leafSway{0%,100%{transform:rotate(-2.5deg)}50%{transform:rotate(2.5deg)}}
+.js-anim .ct-leaf{opacity:0}
+.js-anim .ct-leaf.l{translate:-60px 30px}
+.js-anim .ct-leaf.r{translate:60px -30px}
+.js-anim .ct-leaf.in{opacity:1;translate:0 0}
+@media (max-width:720px){
+  .ct-leaf{width:130px}
+  .ct-leaf.l{bottom:auto;top:-6px;margin-left:-44px}
+  .ct-leaf.r{top:10px;margin-right:-40px}
+}
+@media (prefers-reduced-motion:reduce){.ct-leaf img{animation:none}}
+.ct-info{display:flex;flex-direction:column;gap:22px;font-family:'Noto Serif JP','Noto Serif',serif;
+  text-shadow:0 1px 14px rgba(10,18,36,.95),0 0 4px rgba(10,18,36,.8)}   /* 24.11: текст читается поверх листа */
+.ct-info dt{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.62)}
 .ct-info dd{margin-top:6px;font-size:clamp(17px,1.4vw,20px);line-height:1.6;color:rgba(255,255,255,.88)}
 .ct-info dd a{border-bottom:1px solid rgba(255,255,255,.3);transition:border-color .3s}
 .ct-info dd a:hover{border-color:#fff}
 .ct-info .see-link{align-self:flex-start;margin-top:6px}
-.ct-map{position:relative;min-height:440px;overflow:hidden}
+/* 24.11: карта с плавно скруглёнными углами и тонкой светлой окантовкой — без острых углов */
+.ct-map{position:relative;min-height:440px;overflow:hidden;border-radius:28px;
+  box-shadow:0 0 0 1px rgba(255,255,255,.22),0 24px 60px rgba(5,10,22,.45);isolation:isolate}
 .ct-map iframe{position:absolute;inset:0;width:100%;height:100%;border:0;
   filter:invert(.92) hue-rotate(180deg) saturate(.55) brightness(.92) contrast(.95)}   /* светлая карта → тёмно-синяя, под сайт */
 .map-link{position:absolute;left:14px;bottom:14px;z-index:2;padding:9px 16px;border-radius:999px;font-family:'Noto Serif JP','Noto Serif',serif;font-size:14px;
@@ -361,7 +396,7 @@ html{background:var(--bg)}
 
 /* стартовые состояния для анимаций нового блока (только если анимации загрузились) */
 .js-anim [data-reveal]{opacity:0;transform:translateY(30px)}
-.js-anim .ph{clip-path:inset(100% 0 0 0)}
+.js-anim .ph{clip-path:inset(100% 0 0 0 round 22px)}
 
 @media (max-width:720px){
   .ph{width:44vw}
@@ -370,6 +405,23 @@ html{background:var(--bg)}
 
 /* временный блок под первым экраном — дальше будем делать следующие разделы */
 .next{min-height:70vh;display:grid;place-items:center;font-family:'Garamond',serif;font-style:italic;font-size:22px;opacity:.45}
+
+/* 24.11: плавающая «Забронировать» — только на телефоне (там её нет в шапке).
+   Тонкая белая рамка, синий полупрозрачный фон с размытием, без белой заливки.
+   Появляется после первого экрана, прячется у «Контактов» (там своя кнопка) и при открытом меню */
+.book-float{display:none}
+@media (max-width:720px){
+  .book-float{display:flex;align-items:center;justify-content:center;position:fixed;z-index:60;
+    left:50%;bottom:calc(16px + env(safe-area-inset-bottom));min-width:220px;height:50px;padding:0 30px;
+    border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(16,29,54,.72);
+    backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 10px 30px rgba(5,10,22,.35);
+    font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#fff;
+    opacity:0;transform:translate(-50%,24px);pointer-events:none;transition:opacity .45s,transform .55s cubic-bezier(.22,1,.36,1)}
+  .book-float.show{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+  .book-float:active{background:rgba(255,255,255,.12)}
+  .book-float:focus-visible{outline:1px solid #fff;outline-offset:3px}
+  body.menu-open .book-float{opacity:0;pointer-events:none}
+}
 
 @media (max-width:720px){
   .top-right .hide-m{display:none}
@@ -391,7 +443,6 @@ html{background:var(--bg)}
   .aw-grid{max-width:min(88vw,1680px)}
   .mb-grid{grid-template-columns:repeat(2,minmax(0,min(38vw,700px)))}
   .mb-photo{aspect-ratio:4/3}
-  .collab-frame{width:min(100%,1060px)}
   .faq-list{width:min(100%,1120px)}
   .faq-a p{max-width:80ch}
   .ct-grid{width:min(100%,1720px)}
@@ -405,7 +456,10 @@ html{background:var(--bg)}
 </head>
 <body>
 
-<div class="curtain" id="curtain"></div>
+<div class="curtain" id="curtain">
+  <div class="splash-kana" aria-hidden="true"><span></span><span></span><span></span></div>
+  <i class="splash-line" id="splashLine" aria-hidden="true"></i>
+</div>
 <div class="bg-flow" id="bgFlow" aria-hidden="true"></div>
 
 <!-- Бургер-меню — как у них на сайте: панель выезжает слева, все разделы и их страницы, внизу адрес, часы и иконки -->
@@ -437,6 +491,8 @@ html{background:var(--bg)}
   </aside>
 </div>
 
+<a class="book-float" id="bookFloat" href="bronirovanie.html" data-i18n="book">Забронировать</a>
+
 <section class="hero" id="hero">
   <div class="hero-photo" id="heroPhoto" aria-hidden="true">
     <video id="heroVideo" src="video/soyka-hero.webm" poster="video/soyka-hero-poster.jpg"
@@ -460,7 +516,6 @@ html{background:var(--bg)}
     </div>
     <a class="top-logo" href="#hero" aria-label="Сойка — на главную"><img src="img/logo.png" alt="Сойка"></a>
     <div class="top-right">
-      <a class="hide-m" href="menu.html" data-i18n="menu">Меню</a>
       <a class="hide-m" href="bronirovanie.html" data-i18n="book">Забронировать</a>
       <!-- окно «Доставка» → их сайт доставки -->
       <a class="deliv" href="https://delivery.soyka.rest/" target="_blank" rel="noopener" data-i18n="delivery">Доставка</a>
@@ -641,44 +696,17 @@ html{background:var(--bg)}
       <div class="faq-a"><div><p data-i18n-html="a4">Да. С каждого заказа начисляются бонусы — от 5% до 15% в зависимости от статуса (Друг, Лучший друг, Амбассадор, Патрон), в день рождения и неделю до и после — 15%. Один бонус равен одному рублю, бонусами можно оплатить до 50% заказа в ресторане, и они не сгорают. Бонусы нельзя тратить на винную карту, заказы с собой и доставку — на них можно только копить. <a href="card.html">Получить карту</a>.</p></div></div>
     </div>
     <div class="faq-item">
-      <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q5">Во сколько вы работаете?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a5">ВС–ЧТ с 12:00 до 00:00, ПТ–СБ с 12:00 до 01:00.</p></div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q6">Где вы находитесь?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a6">Екатеринбург, ул. 8 Марта, 6 — в старинном особняке с белыми кирпичными сводами, который относится к архитектурному ансамблю усадьбы купца Тупикова.</p></div></div>
-    </div>
-    <div class="faq-item">
       <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q7">Хотим сделать с вами коллаборацию</span><i aria-hidden="true"></i></button>
       <div class="faq-a"><div><p data-i18n-html="a7">Ответьте на пару вопросов в <a href="https://forms.gle/k2pZzCRd7EPgPXMn8" target="_blank" rel="noopener">форме заявки</a>, чтобы мы узнали друг друга ближе.</p></div></div>
     </div>
-    <div class="faq-item">
-      <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q8">Есть ли у вас вакансии?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a8">Посмотрите <a href="vakansii.html">вакансии на нашем сайте</a>.</p></div></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q" type="button" aria-expanded="false"><span data-i18n="q9">Как оставить отзыв?</span><i aria-hidden="true"></i></button>
-      <div class="faq-a"><div><p data-i18n-html="a9">Через <a href="feedback.html">форму обратной связи</a>.</p></div></div>
-    </div>
   </div>
-</section>
-
-<!-- ===== Блок 4. Коллаборация — их тексты и их Google-форма. Тонкая рамка — как у них на сайте ===== -->
-<section class="collab2" id="collab">
-  <div class="collab-frame" data-reveal>
-    <span class="jp">協業</span>
-    <h2 data-i18n="colTitle">Запланируем коллаборацию?</h2>
-    <p data-i18n="colText">Ответьте на пару вопросов, чтобы мы узнали друг друга ближе</p>
-    <a class="see-link" href="https://forms.gle/k2pZzCRd7EPgPXMn8" target="_blank" rel="noopener" data-i18n="colBtn">Оставить заявку</a>
-  </div>
-  <!-- полукруг слева, как у них -->
-  <div class="collab-half" aria-hidden="true"></div>
-  <!-- их カケス у правого края, вертикально — как у них, только белые -->
-  <div class="kana collab-kana2" aria-hidden="true"><span></span><span></span><span></span></div>
 </section>
 
 <!-- ===== Блок 6. Контакты — как お問い合わせ / CONTACT у Akaneya. Всё с их сайта ===== -->
 <section class="contacts2" id="contacts">
+  <!-- 24.11: их листья по бокам (рисунки с блока контактов soyka.rest) -->
+  <div class="ct-leaf l" aria-hidden="true"><img src="img/leaf-1.png" alt="" loading="lazy"></div>
+  <div class="ct-leaf r" aria-hidden="true"><img src="img/leaf-2.png" alt="" loading="lazy"></div>
   <div class="sec-head" data-reveal>
     <span class="jp">お問い合わせ</span>
     <h2 data-i18n="ctTitle">Контакты</h2>
@@ -853,6 +881,52 @@ if (!calm && window.anime && window.Motion) {
   const { animate: aAnimate, stagger } = anime;
   const { animate, scroll } = Motion;
 
+  /* 24.11: заставка — только при первом заходе за сеанс (при переходах назад со страниц меню и брони её нет) */
+  const curtain = document.getElementById('curtain');
+  let firstVisit = true;
+  try { firstVisit = !sessionStorage.getItem('soyka-splash'); sessionStorage.setItem('soyka-splash', '1'); } catch (e) {}
+
+  if (firstVisit) {
+    curtain.classList.add('splash');
+    document.documentElement.style.overflow = 'hidden';          // пока идёт заставка, страницу не листаем
+    const video = document.getElementById('heroVideo');
+    const line = document.getElementById('splashLine');
+    const t0 = performance.now();
+    // знаки проявляются по одному из размытия
+    aAnimate('.splash-kana span', {
+      opacity: [0, .9], translateY: [16, 0],
+      filter: ['brightness(0) invert(1) blur(8px)', 'brightness(0) invert(1) blur(0px)'],
+      delay: stagger(240, { start: 150 }), duration: 900, ease: 'outQuad'
+    });
+    // линия загрузки: сама доходит до 80%, а до конца — когда видео готово
+    const load = { v: 0 };
+    const crawl = aAnimate(load, { v: .8, duration: 1800, ease: 'outQuad',
+      onUpdate: () => line.style.setProperty('--load', load.v) });
+    let done = false;
+    const finish = () => {
+      if (done) return; done = true;
+      // минимум 1,6 с, чтобы знаки успели проявиться
+      setTimeout(() => {
+        crawl.pause();
+        aAnimate(load, { v: 1, duration: 350, ease: 'outQuad', onUpdate: () => line.style.setProperty('--load', load.v) });
+        // знаки и линия тают вверх, потом открывается первый экран
+        aAnimate('.splash-kana, .splash-line', {
+          opacity: [1, 0], translateY: [0, -18], filter: ['blur(0px)', 'blur(6px)'],
+          delay: 300, duration: 650, ease: 'inQuad',
+          onComplete: () => { document.documentElement.style.overflow = ''; heroIntro(); }
+        });
+      }, Math.max(0, 1600 - (performance.now() - t0)));
+    };
+    if (video.readyState >= 3 && !video.paused) finish();
+    video.addEventListener('playing', finish, { once: true });
+    video.addEventListener('error', finish, { once: true });
+    video.play().catch(finish);                 // автозапуск запрещён — показываем стоп-кадр и идём дальше
+    setTimeout(finish, 4500);                   // медленный интернет — не держим дольше 4,5 с
+  } else {
+    heroIntro();
+  }
+
+  function heroIntro() {
   /* anime.js — открытие первого экрана, по шагам: */
   // 1) синий занавес растворяется
   aAnimate('#curtain', { opacity: [1, 0], duration: 1400, ease: 'inOutQuad' });
@@ -867,6 +941,7 @@ if (!calm && window.anime && window.Motion) {
   // 5) шапка и полоска «листай вниз» появляются последними
   aAnimate('.top > *', { opacity: [0, 1], delay: stagger(80, { start: 1900 }), duration: 1000, ease: 'outQuad' });
   aAnimate('#scrollHint', { opacity: [0, 1], delay: 2300, duration: 800 });
+  }
 
   /* Motion — при прокрутке фото уезжает медленнее страницы (параллакс), знаки и слоган растворяются */
   const photo = document.getElementById('heroPhoto');
@@ -890,7 +965,7 @@ if (!calm && window.anime && window.Motion) {
   // anime.js: фото открываются шторкой снизу вверх, второе чуть позже
   inView('.story-photos', entry => {
     aAnimate('.story .ph', {
-      clipPath: ['inset(100% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'],
+      clipPath: ['inset(100% 0% 0% 0% round 22px)', 'inset(0% 0% 0% 0% round 22px)'],
       delay: stagger(220), duration: 1400, ease: 'inOutQuart'
     });
   }, { margin: '0px 0px -15% 0px' });
@@ -932,7 +1007,7 @@ if (!calm && window.anime && window.Motion) {
   /* ===== Блок «Награды» ===== */
   // anime.js: фото в карточках «Меню» и «Бар» открываются шторкой снизу, второе чуть позже
   inView('.mb-grid', () => {
-    aAnimate('.mb-photo', { clipPath: ['inset(100% 0% 0% 0%)', 'inset(0% 0% 0% 0%)'], delay: stagger(220), duration: 1400, ease: 'inOutQuart' });
+    aAnimate('.mb-photo', { clipPath: ['inset(100% 0% 0% 0% round 22px)', 'inset(0% 0% 0% 0% round 22px)'], delay: stagger(220), duration: 1400, ease: 'inOutQuart' });
   }, { margin: '0px 0px -15% 0px' });
 
   // Motion: при прокрутке карточки «Меню» и «Бар» плавно едут в разные стороны, как у Akaneya:
@@ -950,13 +1025,9 @@ if (!calm && window.anime && window.Motion) {
     aAnimate('.faq-item', { opacity: [0, 1], translateY: [24, 0], delay: stagger(70), duration: 900, ease: 'outExpo' });
   }, { margin: '0px 0px -10% 0px' });
 
-  // Коллаборация. anime.js: рамка «рисуется» — открывается от центра к краям; Motion: カケス сбоку плывут при прокрутке
-  inView('.collab-frame', () => {
-    aAnimate('.collab-frame', { clipPath: ['inset(50% 50% 50% 50%)', 'inset(0% 0% 0% 0%)'], duration: 1400, ease: 'inOutQuart' });
-  }, { margin: '0px 0px -20% 0px' });
-  const ck = document.querySelector('.collab-kana2');
-  scroll(p => { ck.style.transform = `translateY(calc(-50% + ${(p - .5) * -120}px))`; },
-    { target: document.getElementById('collab'), offset: ['start end', 'end start'] });
+  // 24.11: листья в «Контактах» выезжают с краёв, когда блок появляется на экране
+  inView('.contacts2', () => { document.querySelectorAll('.ct-leaf').forEach(l => l.classList.add('in')); },
+    { margin: '0px 0px -15% 0px' });
 
   // anime.js: カケス-разделитель проявляется по одному знаку из размытия — как на первом экране
   inView('#kanaDiv', () => {
@@ -1005,7 +1076,15 @@ if (!calm && window.anime && window.Motion) {
   burger.addEventListener('click', () => setOpen(true));
   // шапка: после небольшой прокрутки получает синий фон, чтобы её было видно поверх фото и текста
   const top = document.querySelector('.top');
-  const onScroll = () => top.classList.toggle('scrolled', scrollY > 40);
+  // 24.11: плавающая «Забронировать» на телефоне — видна после 60% первого экрана и до «Контактов»
+  const bookFloat = document.getElementById('bookFloat');
+  const heroEl = document.getElementById('hero'), contactsEl = document.getElementById('contacts');
+  const onScroll = () => {
+    top.classList.toggle('scrolled', scrollY > 40);
+    const pastHero = scrollY > heroEl.offsetHeight * .6;
+    const atContacts = contactsEl.getBoundingClientRect().top < innerHeight * .85;
+    bookFloat.classList.toggle('show', pastHero && !atContacts);
+  };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
   drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
   drawer.querySelectorAll('.drawer-nav a').forEach(a => a.addEventListener('click', () => setOpen(false)));
@@ -1042,7 +1121,6 @@ document.querySelectorAll('.mb-photo').forEach((box, k) => {
     ['awards',   [14, 25, 47]],    // #0e192f — снова глубже, «ночь»
     ['menu',     [24, 42, 77]],    // #182a4d — снова светлее, к их синему
     ['faq',      [22, 38, 70]],    // #162646 — чуть светлее
-    ['collab',   [17, 31, 58]],    // #111f3a — глубже
     ['contacts', [13, 23, 44]]     // #0d172c — самый глубокий, финал страницы
   ].map(([id, c]) => ({ el: document.getElementById(id), c }));
   const root = document.documentElement;
@@ -1054,7 +1132,8 @@ document.querySelectorAll('.mb-photo').forEach((box, k) => {
     const centers = bounds.map(r => r.top + r.height / 2);
     const firstScreen = bounds[0];
     const progress = -firstScreen.top / firstScreen.height;
-    const fade = Math.max(0, Math.min(1, (progress - .12) / .76));
+    // 24.11: видео начинает таять раньше и растворяется полностью к 70% прокрутки первого экрана
+    const fade = Math.max(0, Math.min(1, (progress - .05) / .65));
     hero.style.setProperty('--hero-video-opacity', 1 - smooth(fade));
     let c = stops[0].c;
     if (mid >= centers[centers.length - 1]) c = stops[stops.length - 1].c;
