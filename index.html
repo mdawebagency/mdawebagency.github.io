@@ -3,23 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>NIB — сайты для ресторанов, кафе и цветочных магазинов</title>
-  <meta name="description" content="NIB — делаем сайты для ресторанов, кафе и цветочных магазинов в Екатеринбурге, а ещё сайты-визитки и портфолио. Telegram и телефон на сайте.">
+  <title>MDA — сайты для ресторанов и кафе</title>
+  <meta name="description" content="MDA — делаем сайты для ресторанов и кафе: меню с ценами и фото, бронь и заказ, связка с Яндекс Картами и 2ГИС. Telegram и телефон на сайте.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Fraunces:ital,opsz,wght@1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Fraunces:ital,opsz,wght@0,9..144,300;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
   <style>
-    /* ===== Палитра NIB: хвойный, кремовый и шампань ===== */
+    /* ===== Палитра MDA: хвойный, кремовый и шампань (как 21.11) ===== */
     :root {
-      --bg: #142a23;
-      --bg-2: #1c352d;
-      --line: #355046;
-      --text: #f5efe3;
-      --muted: #b7c4ba;
-      --accent: #d9b878;
-      --accent-hover: #e8cc94;
-      --radius: 22px;
-      --max: 1180px;
+      --bg: #142a23;          /* фон страницы — хвойный */
+      --bg-2: #1c352d;        /* фон карточек — чуть светлее */
+      --line: #355046;        /* тонкие линии и рамки */
+      --text: #f5efe3;        /* основной текст — кремовый */
+      --muted: #b7c4ba;       /* второстепенный текст */
+      --accent: #f0c766;      /* главный акцент — яркая шампань: кнопки, курсив, значки (23.11 сделали ярче, было #d9b878) */
+      --accent-hover: #f7d98c;/* акцент при наведении — светлее */
+      --hero-glow: #24483b;   /* мягкое свечение сверху первого экрана */
+      --radius: 16px;
+      --max: 1400px; /* 23.11: шире, было 1180px — меньше пустоты по бокам */
       --serif: "Fraunces", Georgia, serif;
     }
 
@@ -33,17 +34,20 @@
       -webkit-font-smoothing: antialiased;
       overflow-x: clip;
     }
-    /* На широком экране сохраняем пропорции версии шириной 1343px. */
-    @media (min-width: 1344px) {
-      body { zoom: clamp(1, calc(100vi / 1343px), 1.65); }
+    /* На очень широком экране сайт чуть увеличивается, но не больше чем в 1,25 раза (23.11: было до 1,65 — в полноэкранном режиме всё было слишком крупным). */
+    @media (min-width: 1600px) {
+      body { zoom: clamp(1, calc(100vi / 1600px), 1.25); }
     }
 
     a { color: inherit; text-decoration: none; }
     em { font-family: var(--serif); font-style: italic; font-weight: 400; color: var(--accent); }
-    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 20px; }
+    /* MDA (шапка, подпись, подвал) одним шрифтом — тонкий прямой Fraunces, как курсив в заголовках (23.11). */
+    .brand-word, .logo b { font-family: var(--serif); font-weight: 300; letter-spacing: .06em; }
+    .wrap { max-width: var(--max); margin: 0 auto; padding: 0 clamp(20px, 3vw, 40px); }
     .kicker { font-size: 12px; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); font-weight: 600; }
-    section { padding: 110px 0; }
-    h2 { font-size: clamp(34px, 5vw, 58px); line-height: 1.05; font-weight: 600; letter-spacing: -.02em; margin: 14px 0 0; }
+    section { padding: 72px 0; } /* 23.11: плотнее, было 110px */
+    section[id] { scroll-margin-top: 28px; } /* 24.11: при переходе из меню заголовок главы не прячется под шапкой */
+    h2 { font-size: clamp(30px, 4.2vw, 48px); line-height: 1.05; font-weight: 600; letter-spacing: -.02em; margin: 14px 0 0; }
     .lead { color: var(--muted); font-size: 17px; max-width: 560px; margin-top: 18px; }
 
     /* Кнопки */
@@ -72,11 +76,16 @@
       position: absolute; left: 0; right: 0; bottom: -1px; height: 2px;
       background: var(--accent); transform-origin: 0 50%; transform: scaleX(0);
     }
-    .nav { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+    /* Шапка на всю ширину экрана: логотип и кнопка с одинаковым отступом от краёв, меню ровно по центру (23.11). */
+    header .wrap.nav { max-width: none; padding-inline: clamp(20px, 2.5vw, 44px); }
+    .nav { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; height: 72px; }
+    .nav .logo { grid-column: 1; justify-self: start; white-space: nowrap; }
+    .nav .nav-links { grid-column: 2; }
+    .nav > .btn { grid-column: 3; justify-self: end; white-space: nowrap; }
     .logo { display: flex; align-items: baseline; gap: 10px; }
-    .logo b { font-size: 22px; letter-spacing: .08em; font-weight: 700; }
+    .logo b { font-size: 24px; }
     .logo span { font-size: 12px; color: var(--muted); }
-    .nav-links { display: flex; gap: 30px; font-size: 14px; color: var(--muted); }
+    .nav-links { display: flex; gap: clamp(16px, 1.9vw, 30px); /* 24.11: 6 пунктов — на узких экранах промежутки чуть меньше */ font-size: 14px; color: var(--muted); }
     .nav-links a { position: relative; transition: color .25s; }
     .nav-links a::after {
       content: ""; position: absolute; left: 0; right: 0; bottom: -7px;
@@ -90,16 +99,14 @@
     .nav .btn { padding: 10px 18px; font-size: 14px; }
 
     /* ===== Первый экран ===== */
-    .hero { padding: 170px 0 70px; text-align: center; position: relative; }
-    .glow { /* тёплое свечение за заголовком, при прокрутке уезжает вниз и гаснет */
-      position: absolute; left: 0; right: 0; top: 90px; height: 420px;
-      background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 20%, transparent), transparent);
-      pointer-events: none;
+    .hero {
+      padding: 140px 0 64px; text-align: center; position: relative; overflow: clip;
+      background: radial-gradient(ellipse 75% 100% at 50% 0%, var(--hero-glow), var(--bg) 84%);
     }
     .hero .wrap { position: relative; }
     .hero h1 {
       position: relative;
-      font-size: clamp(46px, 8.4vw, 112px);
+      font-size: clamp(42px, 7vw, 92px);
       line-height: .98; font-weight: 600; letter-spacing: -.035em;
       margin: 22px auto 0; max-width: 1000px;
     }
@@ -109,38 +116,41 @@
     .hero-cta { position: relative; display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; }
 
     /* ===== Что делаем ===== */
-    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 50px; }
+    .services { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 36px; }
     .service {
       background: var(--bg-2); border: 1px solid var(--line); border-radius: var(--radius);
       padding: 26px 24px 28px; min-height: 210px; display: flex; flex-direction: column;
     }
     .service .num { font-family: var(--serif); font-style: italic; color: var(--accent); font-size: 22px; }
-    .service h3 { font-size: 20px; font-weight: 600; margin: auto 0 8px; line-height: 1.2; }
+    #problems .service .num { font-size: 32px; font-weight: 500; line-height: 1; } /* 24.11: в «Что мы находим» цифры крупнее и жирнее */
+    #problems .service h3 { margin-top: 52px; }
+    @media (max-width: 640px) { #problems .service h3 { margin-top: 22px; } }
+    .service h3 { font-size: 20px; font-weight: 600; margin: 64px 0 8px; line-height: 1.2; } /* 24.11: отступ сверху фиксированный — заголовки во всех карточках на одной высоте, даже если текст под ними разной длины */
     .service p { color: var(--muted); font-size: 14px; }
 
     /* ===== Работы ===== */
-    #works { overflow: hidden; padding: 74px 0 70px; border-block: 1px solid var(--line); background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 6%, transparent), transparent 65%), var(--bg); }
-    .works-head { text-align: center; margin-bottom: 38px; }
-    .works-lanes { display: flex; flex-direction: column; gap: 22px; mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
+    #works { overflow: hidden; padding: 56px 0 56px; border-block: 1px solid var(--line); background: radial-gradient(ellipse at center, color-mix(in srgb, var(--accent) 6%, transparent), transparent 65%), var(--bg); }
+    .works-head { text-align: center; margin-bottom: 30px; }
+    .works-lanes { display: flex; flex-direction: column; gap: 28px; mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent); }
     .works-window { overflow-x: auto; overscroll-behavior-x: contain; scrollbar-width: none; }
     .works-window::-webkit-scrollbar { display: none; }
     .works-window.is-running { overflow-x: hidden; }
     .works-track { display: flex; width: max-content; }
-    .works-set { display: flex; gap: 18px; padding-right: 18px; }
-    .works-set .card { width: 360px; flex: none; }
+    .works-set { display: flex; gap: 24px; padding-right: 24px; }
+    .works-set .card { width: 360px; flex: none; } /* 23.11: 360 → 500 → 420 → 360px */
     .works-set .shot { aspect-ratio: 16 / 9; border-radius: 19px; border-color: color-mix(in srgb, var(--text) 24%, transparent); box-shadow: 0 22px 50px rgba(0,0,0,.3); }
-    .work-name { display: block; padding: 8px 4px 2px; font-size: 14px; font-weight: 600; color: var(--text); }
-    .works-set .badge { font-size: 10px; top: 10px; left: 10px; padding: 4px 9px; }
+    .work-name { display: block; padding: 10px 4px 2px; font-size: 16px; font-weight: 600; color: var(--text); }
+    .works-set .badge { font-size: 11px; top: 12px; left: 12px; padding: 5px 10px; }
     .works-footer { text-align: center; margin-top: 24px; }
     #works .note { margin-top: 14px; font-size: 12px; }
     .works-window:focus-visible { outline: 2px solid var(--accent); outline-offset: -3px; }
-    @media (max-width: 960px) { .works-set .card { width: 300px; } }
+    @media (max-width: 960px) { .works-set .card { width: 320px; } }
     @media (max-width: 640px) {
       #works { padding: 42px 0 50px; }
       .works-head { margin-bottom: 26px; }
       .works-lanes { gap: 12px; mask-image: linear-gradient(to right, transparent, black 2%, black 98%, transparent); }
       .works-set { gap: 10px; padding-right: 10px; }
-      .works-set .card { width: min(72vw, 280px); }
+      .works-set .card { width: min(76vw, 300px); }
       .works-set .shot { border-radius: 12px; }
     }
     .group-title { display: flex; align-items: baseline; gap: 14px; margin: 64px 0 22px; font-size: 22px; font-weight: 600; }
@@ -156,11 +166,9 @@
       position: absolute; top: 0; left: 0;
       width: 1280px; height: 2600px; border: 0;
       transform-origin: 0 0;
-      transform: scale(var(--s, .4)) translateY(var(--y, 0px));
-      transition: transform 7s cubic-bezier(.25,.1,.25,1);
+      transform: scale(var(--s, .4)); /* 23.11: превью стоит на месте, без прокрутки при наведении */
       pointer-events: none;
     }
-    .card:hover .shot iframe { --y: -1700px; transition-duration: 3s; }
     .shot::after { /* мягкая тень снизу превью */
       content: ""; position: absolute; inset: auto 0 0 0; height: 30%;
       background: linear-gradient(transparent, color-mix(in srgb, var(--bg) 55%, transparent)); pointer-events: none;
@@ -183,23 +191,28 @@
     .note { color: var(--muted); font-size: 14px; margin-top: 30px; }
 
     /* ===== Как работаем ===== */
-    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 50px; counter-reset: s; }
-    .step { border-top: 1px solid var(--line); padding-top: 22px; }
-    .step .n { font-family: var(--serif); font-style: italic; font-size: 46px; color: var(--accent); line-height: 1; }
-    .step h3 { font-size: 19px; margin: 18px 0 8px; font-weight: 600; }
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 22px; margin-top: 36px; counter-reset: s; }
+    .step { display: flex; flex-direction: column; }
+    /* Картинка шага: скруглённая, с тонкой рамкой; чуть приглушена, чтобы кремовый фон не бросался в глаза на тёмном сайте (23.11). */
+    .step-img {
+      display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; margin-bottom: 20px;
+      border-radius: var(--radius); border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+      filter: brightness(.88) saturate(.92);
+    }
+    /* «Как работаем» по структуре «Как будет идти разработка» (24.11): слева заголовок и подпись, под картинками линия времени с точками, которая заполняется при прокрутке. */
+    .process-lead { color: var(--muted); margin-top: 14px; max-width: 560px; }
+    .step-mark { position: relative; display: flex; align-items: center; height: 14px; margin-bottom: 18px; }
+    .step-dot { position: relative; z-index: 1; flex: none; width: 12px; height: 12px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--bg); transition: background .4s, border-color .4s, box-shadow .4s; }
+    .step.is-reached .step-dot { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 22%, transparent); }
+    .step-seg { position: absolute; left: 6px; right: -22px; top: 50%; height: 1px; background: var(--line); }
+    .step:last-child .step-seg { right: 0; }
+    .step-fill { display: block; height: 100%; background: var(--accent); transform-origin: 0 50%; transform: scaleX(var(--fill, 0)); }
+    .step .n { font-family: var(--serif); font-style: italic; font-size: 22px; color: var(--accent); line-height: 1; }
+    .step h3 { font-size: 19px; margin: 10px 0 8px; font-weight: 600; }
     .step p { color: var(--muted); font-size: 14px; }
 
-    /* ===== Что входит ===== */
-    .includes { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
-    .inc-list { list-style: none; }
-    .inc-list li {
-      display: flex; gap: 18px; padding: 20px 0; border-bottom: 1px solid var(--line); font-size: 17px;
-    }
-    .inc-list li:first-child { border-top: 1px solid var(--line); }
-    .inc-list li::before { content: "✳"; color: var(--accent); }
-
     /* ===== Вопросы ===== */
-    .faq { margin-top: 44px; max-width: 820px; }
+    .faq { margin-top: 32px; }
     .faq details { border-bottom: 1px solid var(--line); }
     .faq summary {
       list-style: none; cursor: pointer; padding: 24px 0;
@@ -212,12 +225,12 @@
     .faq details p { color: var(--muted); padding: 0 0 24px; max-width: 680px; }
 
     /* ===== Финал ===== */
-    .final { text-align: center; padding: 130px 0 90px; position: relative; }
+    .final { text-align: center; padding: 90px 0 70px; position: relative; }
     .final::before {
       content: ""; position: absolute; left: 50%; top: 40px; width: min(700px, 100%); height: 380px; transform: translateX(-50%);
       background: radial-gradient(closest-side, color-mix(in srgb, var(--accent) 16%, transparent), transparent); pointer-events: none;
     }
-    .final h2 { font-size: clamp(40px, 7vw, 92px); position: relative; }
+    .final h2 { font-size: clamp(36px, 5.6vw, 72px); position: relative; }
     .final .lead { margin: 22px auto 0; position: relative; }
     .contacts { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 36px; position: relative; }
     .hours { color: var(--muted); font-size: 14px; margin-top: 20px; position: relative; }
@@ -240,27 +253,46 @@
       #process::before { right: -285px; }
     }
 
-    .faq-contact { margin-top: 42px; display: flex; align-items: center; justify-content: space-between; gap: 32px; max-width: 820px; padding: 22px 26px; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 26px; background: var(--bg-2); }
+    .faq-contact { margin-top: 32px; display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 22px 26px; border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent); border-radius: 26px; background: var(--bg-2); }
     .faq-contact h3 { font-size: 21px; line-height: 1.3; font-weight: 500; }
     .faq-contact-text p { margin-top: 8px; max-width: 430px; font-size: 13px; line-height: 1.65; color: var(--muted); }
     .faq-contact .btn { flex-shrink: 0; }
     @media (max-width: 640px) { .faq-contact { align-items: flex-start; flex-direction: column; gap: 22px; padding: 22px; } .faq-contact .btn { width: 100%; justify-content: center; } }
 
+    /* ===== «Как работаем» и «Вопросы» — всё по центру и симметрично (23.11) ===== */
+    #problems .wrap > .kicker, #problems .wrap > h2,
+    #faq .wrap > .kicker, #faq .wrap > h2 { text-align: center; }
+    /* Вопросы: колонка по центру страницы, текст вопросов и ответов — по левому краю (каждая строка с одной вертикали), плюсики крупные и на одной вертикали справа. */
+    .faq, .faq-contact { max-width: 980px; margin-inline: auto; }
+    .faq summary { position: relative; justify-content: flex-start; text-align: left; padding-right: 64px; font-size: 24px; font-weight: 700; color: #fff; }
+    .faq summary::after { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); font-size: 36px; font-weight: 400; }
+    .faq details[open] summary::after { transform: translateY(-50%) rotate(45deg); }
+    .faq details.closing summary::after { transform: translateY(-50%); } /* при закрытии крестик сразу поворачивается обратно в плюс */
+    .faq details p { text-align: left; margin-inline: 0; padding-right: 64px; }
+    @media (max-width: 640px) { .faq summary { font-size: 19px; padding-right: 44px; } .faq summary::after { right: 0; font-size: 30px; } .faq details p { padding-right: 0; } }
+    .faq-contact { flex-direction: row; align-items: center; justify-content: space-between; text-align: left; gap: 32px; } /* «Остался вопрос?»: текст слева, кнопка «Задать вопрос» справа */
+    .faq-contact-text p { margin-inline: 0; }
+    @media (max-width: 640px) { .faq-contact { flex-direction: column; align-items: stretch; gap: 18px; } } /* на телефоне кнопка под текстом на всю ширину */
+
     /* ===== Появление при прокрутке: прячем, только если анимации загрузились ===== */
-    .js-anim [data-reveal] { opacity: 0; transform: translateY(28px); }
-    .js-anim .hero h1 .w { opacity: 0; transform: translateY(40px); }
+    .js-anim [data-reveal] { opacity: 0; transform: translateY(28px); filter: blur(8px); }
+    .split-word { display: inline-block; }
+    .js-anim .split-ready .split-word { opacity: 0; filter: blur(10px); transform: translateY(.45em); }
+    .js-anim .hero h1 .w { opacity: 0; filter: blur(12px); }
     .js-anim .hero .fade { opacity: 0; }
 
 
     /* ===== Телефон и планшет ===== */
+    /* 24.11: в меню 7 пунктов — показываем его только на экранах от 1150 px, на более узких оно бы не влезло */
+    @media (max-width: 1149px) { .nav-links { display: none; } }
+    .nav-links a { white-space: nowrap; }
     @media (max-width: 960px) {
       .steps { grid-template-columns: 1fr 1fr; }
-      .includes { grid-template-columns: 1fr; gap: 30px; }
-      .nav-links { display: none; }
+      .step-seg { display: none; } /* в 2 колонки и на телефоне линия не нужна — точки загораются по мере прокрутки */
     }
     @media (max-width: 640px) {
-      section { padding: 80px 0; }
-      .hero { padding: 130px 0 56px; }
+      section { padding: 56px 0; }
+      .hero { padding: 116px 0 48px; }
       .hero p { font-size: 16px; }
       .grid, .services, .steps { grid-template-columns: 1fr; }
       .service { min-height: 0; }
@@ -268,21 +300,52 @@
       .logo span { font-size: 11px; }
       .contacts .btn, .hero-cta .btn { width: 100%; justify-content: center; }
     }
-    @media (prefers-reduced-motion: reduce) {
-      .shot iframe { transition: none; }
-      .card:hover .shot iframe { --y: 0px; }
+    /* Плавающая кнопка «Написать»: видна только на телефоне, после первого экрана и до «Контактов». */
+    .float-cta { display: none; }
+    @media (max-width: 640px) {
+      .float-cta {
+        display: flex; justify-content: center; position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60;
+        box-shadow: 0 10px 30px rgba(0,0,0,.35); opacity: 0; transform: translateY(140%); pointer-events: none;
+        transition: opacity .35s, transform .45s cubic-bezier(.22,1,.36,1);
+      }
+      .float-cta.show { opacity: 1; transform: none; pointer-events: auto; }
     }
+    /* ===== Полоска доверия под первым экраном (24.11) ===== */
+    .trust { padding: 0 0 56px; }
+    .trust-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .trust-item { display: flex; gap: 14px; align-items: flex-start; padding: 18px 20px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-2); }
+    .trust-ico { flex: none; width: 26px; height: 26px; fill: none; stroke: var(--accent); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; margin-top: 1px; }
+    .trust-item h3 { font-size: 16px; font-weight: 600; line-height: 1.3; }
+    .trust-item p { color: var(--muted); font-size: 14px; margin-top: 4px; }
+    @media (max-width: 960px) { .trust-row { grid-template-columns: 1fr; gap: 10px; } }
+    /* ===== Сайт остаётся вашим (24.11): переключатель «у разработчика → у вас» ===== */
+    #ownership .wrap > .kicker, #ownership .wrap > h2, .own-lead { text-align: center; }
+    .own-lead { color: var(--muted); max-width: 620px; margin: 18px auto 0; }
+    .own-list { max-width: 980px; margin: 32px auto 0; }
+    .own-row { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+    .own-row:first-child { border-top: 1px solid var(--line); }
+    .own-name { font-size: 22px; font-weight: 700; color: #fff; }
+    .own-switch { position: relative; flex: none; display: inline-grid; grid-template-columns: 1fr 1fr; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: var(--bg-2); font-size: 13px; }
+    .own-opt { position: relative; z-index: 1; padding: 7px 16px; text-align: center; white-space: nowrap; color: var(--muted); transition: color .5s .25s; }
+    .own-knob { position: absolute; top: 4px; bottom: 4px; left: 4px; width: calc(50% - 4px); border-radius: 999px; background: color-mix(in srgb, var(--text) 12%, transparent); transition: transform .8s cubic-bezier(.65,0,.35,1), background .6s .2s; }
+    .own-row.is-yours .own-knob { transform: translateX(100%); background: var(--accent); }
+    .own-row.is-yours .own-opt:first-of-type { color: color-mix(in srgb, var(--muted) 55%, transparent); }
+    .own-row.is-yours .own-opt:last-of-type { color: var(--bg); font-weight: 700; }
+    @media (max-width: 640px) { .own-row { flex-direction: column; align-items: flex-start; gap: 12px; padding: 18px 0; } .own-name { font-size: 19px; } .own-opt { padding: 6px 14px; } }
+    @media (prefers-reduced-motion: reduce) { .own-knob, .own-opt { transition: none; } }
   </style>
 </head>
 <body>
 
 <header id="top">
   <div class="wrap nav">
-    <a href="#" class="logo"><b>NIB</b><span>web agency</span></a>
+    <a href="#" class="logo"><b>MDA</b><span>web agency</span></a>
     <nav class="nav-links">
-      <a href="#services">Услуги</a>
       <a href="#works">Портфолио</a>
+      <a href="#services">Услуги</a>
       <a href="#process">Как работаем</a>
+      <a href="#problems">Что мы находим</a>
+      <a href="#ownership">Всё ваше</a>
       <a href="#faq">Вопросы</a>
       <a href="#contacts">Контакты</a>
     </nav>
@@ -294,11 +357,10 @@
 <main>
   <!-- ===== 1. Первый экран ===== -->
   <section class="hero">
-    <div class="glow" aria-hidden="true"></div>
     <div class="wrap">
-      <div class="kicker fade">NIB · сайты для бизнеса</div>
+      <div class="kicker fade"><span class="brand-word">MDA</span> · сайты для ресторанов и кафе</div>
       <h1 id="hero-title"><span class="w">Сайты,</span> <span class="w">на</span> <span class="w">которые</span><br><span class="w">хочется</span> <span class="w"><em>зайти.</em></span></h1>
-      <p class="fade">Делаем сайты, портфолио и визитки для бизнеса и людей.</p>
+      <p class="fade">Делаем сайты для ресторанов и кафе: меню с ценами и фото, бронь и связка с картами в одном месте.</p>
       <div class="hero-cta fade">
         <a class="btn btn-main magnet" href="https://t.me/killyouridolsssss" target="_blank" rel="noopener">Обсудить проект</a>
         <a class="btn btn-ghost" href="#works">Смотреть работы</a>
@@ -306,65 +368,84 @@
     </div>
   </section>
 
+  <!-- ===== Полоска доверия под первым экраном (24.11) — только правдивые факты из нашего плана ===== -->
+  <div class="trust" aria-label="Почему с нами спокойно">
+    <div class="wrap trust-row">
+      <div class="trust-item" data-reveal><svg class="trust-ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/></svg><div><h3>Набросок до оплаты</h3><p>Сначала покажем, каким может быть ваш сайт.</p></div></div>
+      <div class="trust-item" data-reveal><svg class="trust-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m8 12.5 2.6 2.6L16.5 9"/></svg><div><h3>Оплата после готовности</h3><p>Платите, когда сайт готов.</p></div></div>
+      <div class="trust-item" data-reveal><svg class="trust-ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8.7-8.7M16 7l3 3M18 5l2 2"/></svg><div><h3>Адрес сайта — на вас</h3><p>Домен оформляется на заведение и остаётся у вас.</p></div></div>
+    </div>
+  </div>
+
+  <!-- ===== 2. Работы ===== -->
+  <section id="works" aria-label="Наши работы">
+<div class="works-lanes"><div class="works-window" role="region" aria-label="Работы: ряд 1" tabindex="0"><div class="works-track" data-direction="left"><div class="works-set"><a class="card" aria-label="Сойка — открыть сайт" href="soyka/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="soyka/" title="Превью: Сойка" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="Нино — открыть сайт" href="nino/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="nino/" title="Превью: Нино" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="Сантал — открыть сайт" href="santal/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="santal/" title="Превью: Сантал" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="Раневская — открыть сайт" href="ranevskaya/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="ranevskaya/" title="Превью: Раневская" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a></div></div></div>
+<div class="works-window" role="region" aria-label="Работы: ряд 2" tabindex="0"><div class="works-track" data-direction="right"><div class="works-set"><a class="card" aria-label="Кам Рань — открыть сайт" href="kamran/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="kamran/" title="Превью: Кам Рань" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="А Помнишь? — открыть сайт" href="apomnish/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="apomnish/" title="Превью: А Помнишь?" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="Yi Pin Китайский самовар — открыть сайт" href="yipin/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="yipin/" title="Превью: Yi Pin" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a>
+<a class="card" aria-label="Uncle Howard — открыть сайт" href="unclehoward/" target="_blank" rel="noopener"><div class="shot"><iframe scrolling="no" data-src="unclehoward/" title="Превью: Uncle Howard" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div></a></div></div></div></div>
+<div class="wrap works-footer"><p class="note">Концепты сайтов для заведений. Нажмите на работу, чтобы открыть сайт.</p></div>
+</section>
+
   <!-- ===== 3. Что делаем ===== -->
   <section id="services">
     <div class="wrap">
       <div class="kicker" data-reveal>Что делаем</div>
-      <h2 data-reveal>Сайты, портфолио<br><em>и визитки.</em></h2>
+      <h2 data-reveal>Сайты для ресторанов<br><em>и кафе.</em></h2>
       <div class="services">
-        <div class="service" data-reveal><span class="num">01</span><h3>Сайты</h3><p>Для ресторанов, кафе и цветочных магазинов: меню или каталог с ценами, заказ и бронь.</p></div>
-        <div class="service" data-reveal><span class="num">02</span><h3>Портфолио</h3><p>Место, где ваши работы выглядят так, как они того стоят.</p></div>
-        <div class="service" data-reveal><span class="num">03</span><h3>Визитки</h3><p>Коротко о вас и контакты, чтобы сразу было понятно, кто вы и как с вами связаться.</p></div>
+        <div class="service" data-reveal><span class="num">01</span><h3>Меню</h3><p>Меню с ценами и фото, которое удобно открыть с телефона.</p></div>
+        <div class="service" data-reveal><span class="num">02</span><h3>Бронь и заказ</h3><p>Гость бронирует стол или делает заказ в WhatsApp и Telegram прямо с сайта.</p></div>
+        <div class="service" data-reveal><span class="num">03</span><h3>Яндекс Карты и 2ГИС</h3><p>Привязываем сайт к картам и подтверждаем карточку в Яндексе, чтобы гости находили вас.</p></div>
       </div>
     </div>
   </section>
-
-  <!-- ===== 4. Работы ===== -->
-  <section id="works" aria-labelledby="works-title">
-<div class="wrap works-head"><h2 id="works-title">Наши <em>работы</em></h2></div>
-<div class="works-lanes"><div class="works-window" role="region" aria-label="Работы: ряд 1" tabindex="0"><div class="works-track" data-direction="left"><div class="works-set"><a class="card" aria-label="Сойка — открыть сайт" href="soyka/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="soyka/" title="Превью: Сойка" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Сойка</span></a>
-<a class="card" aria-label="Нино — открыть сайт" href="nino/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="nino/" title="Превью: Нино" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Нино</span></a>
-<a class="card" aria-label="Сантал — открыть сайт" href="santal/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="santal/" title="Превью: Сантал" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Сантал</span></a>
-<a class="card" aria-label="Раневская — открыть сайт" href="ranevskaya/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="ranevskaya/" title="Превью: Раневская" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Раневская</span></a>
-<a class="card" aria-label="Кам Рань — открыть сайт" href="kamran/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="kamran/" title="Превью: Кам Рань" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Кам Рань</span></a>
-<a class="card" aria-label="А Помнишь? — открыть сайт" href="apomnish/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="apomnish/" title="Превью: А Помнишь?" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">А Помнишь?</span></a></div></div></div>
-<div class="works-window" role="region" aria-label="Работы: ряд 2" tabindex="0"><div class="works-track" data-direction="right"><div class="works-set"><a class="card" aria-label="Yi Pin Китайский самовар — открыть сайт" href="yipin/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="yipin/" title="Превью: Yi Pin" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Yi Pin Китайский самовар</span></a>
-<a class="card" aria-label="Uncle Howard — открыть сайт" href="unclehoward/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="unclehoward/" title="Превью: Uncle Howard" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Uncle Howard</span></a>
-<a class="card" aria-label="Инжир — открыть сайт" href="inzhir/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="inzhir/" title="Превью: Инжир" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Инжир</span></a>
-<a class="card" aria-label="Домик Цветочницы — открыть сайт" href="domik/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="domik/" title="Превью: Домик Цветочницы" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Домик Цветочницы</span></a>
-<a class="card" aria-label="ПроЦветы — открыть сайт" href="protsvety/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="protsvety/" title="Превью: ПроЦветы" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">ПроЦветы</span></a>
-<a class="card" aria-label="Atrium fleur — открыть сайт" href="atrium/" target="_blank" rel="noopener"><div class="shot"><span class="badge">Концепт сайта</span><iframe data-src="atrium/" title="Превью: Atrium fleur" tabindex="-1" aria-hidden="true" loading="lazy"></iframe></div><span class="work-name">Atrium fleur</span></a></div></div></div></div>
-<div class="wrap works-footer"><p class="note">Концепты сайтов для заведений. Нажмите на работу, чтобы открыть сайт.</p></div>
-</section>
 
   <!-- ===== 5. Как работаем ===== -->
   <section id="process">
     <div class="wrap">
       <div class="kicker" data-reveal>Как работаем</div>
       <h2 data-reveal>Вы присылаете название.<br>Мы делаем <em>набросок.</em></h2>
+      <p class="process-lead" data-reveal>Сначала показываем набросок вашего сайта, потом доделываем по вашим правкам.</p>
       <div class="steps">
-        <div class="step" data-reveal><div class="n">01</div><h3>Смотрим, как вас ищут</h3><p>Проверяем ваши карточки в Яндекс Картах и 2ГИС, соцсети и меню.</p></div>
-        <div class="step" data-reveal><div class="n">02</div><h3>Делаем набросок</h3><p>Собираем первую версию сайта на вашей информации и показываем её до оплаты.</p></div>
-        <div class="step" data-reveal><div class="n">03</div><h3>Доделываем по правкам</h3><p>Меняем тексты, фото и блоки, пока сайт не станет вашим.</p></div>
-        <div class="step" data-reveal><div class="n">04</div><h3>Запускаем и поддерживаем</h3><p>Выкладываем сайт в интернет, привязываем к картам и обновляем меню и цены каждый месяц.</p></div>
+        <div class="step" data-reveal><img class="step-img" src="img/process/01-discovery.jpg" alt="Лупа над картой с кафе и меню — изучаем, как вас ищут" width="720" height="720" loading="lazy" decoding="async"><div class="step-mark" aria-hidden="true"><span class="step-dot"></span><span class="step-seg"><span class="step-fill"></span></span></div><div class="n">01</div><h3>Смотрим, как вас ищут</h3><p>Проверяем ваши карточки в Яндекс Картах и 2ГИС, соцсети и меню.</p></div>
+        <div class="step" data-reveal><img class="step-img" src="img/process/02-draft.jpg" alt="Рука рисует набросок сайта кафе" width="720" height="720" loading="lazy" decoding="async"><div class="step-mark" aria-hidden="true"><span class="step-dot"></span><span class="step-seg"><span class="step-fill"></span></span></div><div class="n">02</div><h3>Делаем набросок</h3><p>Собираем первую версию сайта на вашей информации и показываем её до оплаты.</p></div>
+        <div class="step" data-reveal><img class="step-img" src="img/process/03-revisions.jpg" alt="Руки переставляют блоки сайта — правки" width="720" height="720" loading="lazy" decoding="async"><div class="step-mark" aria-hidden="true"><span class="step-dot"></span><span class="step-seg"><span class="step-fill"></span></span></div><div class="n">03</div><h3>Доделываем по правкам</h3><p>Меняем тексты, фото и блоки, пока сайт не станет вашим.</p></div>
+        <div class="step" data-reveal><img class="step-img" src="img/process/04-launch.jpg" alt="Готовый сайт кафе на телефоне рядом с картой" width="720" height="720" loading="lazy" decoding="async"><div class="step-mark" aria-hidden="true"><span class="step-dot"></span><span class="step-seg"><span class="step-fill"></span></span></div><div class="n">04</div><h3>Запускаем и поддерживаем</h3><p>Выкладываем сайт в интернет, привязываем к картам и обновляем меню и цены каждый месяц.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- ===== 6. Что входит ===== -->
-  <section>
-    <div class="wrap includes">
-      <div>
-        <div class="kicker" data-reveal>Что входит</div>
-        <h2 data-reveal>Всё, чтобы гость <em>дошёл</em> до вас.</h2>
+  <!-- ===== 4. Что мы находим (24.11): реальные проблемы из наших проверок заведений ===== -->
+  <section id="problems">
+    <div class="wrap">
+      <div class="kicker" data-reveal>Что мы находим</div>
+      <h2 data-reveal>Где заведения <em>теряют гостей.</em></h2>
+      <div class="services">
+        <div class="service" data-reveal><span class="num">01</span><h3>Нет своего сайта</h3><p>Есть только соцсети, и гостю негде быстро посмотреть меню и цены.</p></div>
+        <div class="service" data-reveal><span class="num">02</span><h3>Карточка не подтверждена</h3><p>Владелец не подтвердил карточку в Яндексе и не может сам обновить в ней данные.</p></div>
+        <div class="service" data-reveal><span class="num">03</span><h3>Метка не на месте</h3><p>Точка на карте стоит не там, где вход, и гость идёт не туда.</p></div>
+        <div class="service" data-reveal><span class="num">04</span><h3>Разные номера</h3><p>В 2ГИС, Яндексе и соцсетях указаны разные телефоны — непонятно, куда звонить.</p></div>
+        <div class="service" data-reveal><span class="num">05</span><h3>Битые ссылки</h3><p>Ссылка на сайт или WhatsApp в карточке не открывается.</p></div>
+        <div class="service" data-reveal><span class="num">06</span><h3>Старые цены</h3><p>В карточках и меню цены, которые давно поменялись.</p></div>
       </div>
-      <ul class="inc-list">
-        <li data-reveal>Меню или каталог с ценами и фото</li>
-        <li data-reveal>Заказ или бронь в WhatsApp и Telegram</li>
-        <li data-reveal>Удобная версия для телефона</li>
-        <li data-reveal>Связка с Яндекс Картами и 2ГИС</li>
-        <li data-reveal>Поддержка: обновляем меню, цены и фото</li>
-      </ul>
+    </div>
+  </section>
+
+  <!-- ===== Сайт остаётся вашим (24.11): только то, что правда оформляется на заведение ===== -->
+  <section id="ownership">
+    <div class="wrap">
+      <div class="kicker" data-reveal>Всё ваше</div>
+      <h2 data-reveal>Сайт остаётся <em>вашим.</em></h2>
+      <p class="own-lead" data-reveal>Домен, хостинг и карточки заведения оформлены на вас. Если перестанем работать вместе, сайт продолжит работать и всё останется у вас.</p>
+      <div class="own-list">
+        <div class="own-row" data-reveal><span class="own-name">Домен — адрес сайта</span><span class="own-switch" aria-label="У вас"><span class="own-knob"></span><span class="own-opt">у разработчика</span><span class="own-opt">у вас</span></span></div>
+        <div class="own-row" data-reveal><span class="own-name">Хостинг — где лежит сайт</span><span class="own-switch" aria-label="У вас"><span class="own-knob"></span><span class="own-opt">у разработчика</span><span class="own-opt">у вас</span></span></div>
+        <div class="own-row" data-reveal><span class="own-name">Карточка в Яндекс Картах</span><span class="own-switch" aria-label="У вас"><span class="own-knob"></span><span class="own-opt">у разработчика</span><span class="own-opt">у вас</span></span></div>
+        <div class="own-row" data-reveal><span class="own-name">Карточка в 2ГИС</span><span class="own-switch" aria-label="У вас"><span class="own-knob"></span><span class="own-opt">у разработчика</span><span class="own-opt">у вас</span></span></div>
+      </div>
     </div>
   </section>
 
@@ -376,10 +457,12 @@
       <div class="faq">
         <details data-reveal><summary>Какие сроки выполнения?</summary><p>Срок зависит от задачи, количества страниц и сложности сайта. Мы работаем командой и согласуем сроки до начала работы. Присылаем результат заранее, до согласованной даты, чтобы оставалось время всё обсудить и при необходимости внести правки.</p></details>
         <details data-reveal><summary>Сколько стоит сайт?</summary><p>Цена — по запросу: она зависит от задачи и количества страниц. Напишите нам, расскажите о заведении, и мы назовём цену.</p></details>
+        <details data-reveal><summary>Нужно ли готовое техническое задание?</summary><p>Нет. Расскажите своими словами, какое у вас заведение и что хочется от сайта. Остальное уточним вопросами и сами соберём по вашим карточкам и соцсетям.</p></details>
         <details data-reveal><summary>Можно посмотреть сайт до оплаты?</summary><p>Да. Сначала мы делаем набросок на вашей информации и показываем его. Решаете, нравится или нет, уже глядя на свой сайт.</p></details>
         <details data-reveal><summary>Что нужно от вас?</summary><p>Название заведения и ссылка на карточку в Яндекс Картах или 2ГИС. Если есть свежее меню, фото и соцсети, тоже пришлите.</p></details>
         <details data-reveal><summary>Что такое поддержка?</summary><p>Мы каждый месяц следим, чтобы сайт работал, и вносим изменения: новое меню, цены, фото, акции. Вам не нужно ни в чём разбираться.</p></details>
-        <details data-reveal><summary>Почему у работ пометка «Концепт сайта»?</summary><p>Это наброски, которые мы сделали для заведений Екатеринбурга, чтобы показать, каким может быть их сайт. Вся информация в них взята из открытых источников самих заведений.</p></details>
+        <details data-reveal><summary>Можно что-то добавить после запуска?</summary><p>Да. Сайт можно дополнять: новые разделы, фото, сезонное меню, акции. Небольшие изменения меню и цен входят в поддержку, новые разделы обсудим отдельно.</p></details>
+        <details data-reveal><summary>Можете доработать сайт, который уже есть?</summary><p>Да, если его можно нормально развивать дальше. Сначала посмотрим ваш сайт и честно скажем, что лучше: доработать его или сделать новый.</p></details>
       </div>
       <div class="faq-contact" data-reveal>
         <div class="faq-contact-text"><h3>Остался вопрос?</h3><p>Напишите нам. Обсудим сроки, задачу и подходящий стиль для вас.</p></div>
@@ -393,21 +476,26 @@
     <div class="wrap">
       <div class="kicker" data-reveal>Контакты</div>
       <h2 data-reveal>Пришлите название.<br><em>Остальное обсудим.</em></h2>
-      <p class="lead" data-reveal>Напишите в Telegram или позвоните. Расскажем, каким может быть ваш сайт.</p>
+      <p class="lead" data-reveal>Напишите в Telegram, WhatsApp или MAX или позвоните. Расскажем, каким может быть ваш сайт.</p>
       <div class="contacts" data-reveal>
         <a class="btn btn-main magnet" href="https://t.me/killyouridolsssss" target="_blank" rel="noopener">Telegram @killyouridolsssss</a>
-        <a class="btn btn-ghost" href="tel:+79122438698">+7 912 243-86-98</a>
+        <a class="btn btn-main" href="https://wa.me/79122438698" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn btn-main" href="https://max.ru/+79122438698" target="_blank" rel="noopener">MAX</a>
+        <a class="btn btn-main" href="tel:+79122438698">+7 912 243-86-98</a>
       </div>
       <p class="hours" data-reveal>Написать можно в любое время</p>
     </div>
   </section>
 </main>
 
+<!-- Плавающая кнопка «Написать» — только на телефоне (24.11) -->
+<a class="btn btn-main float-cta" href="https://t.me/killyouridolsssss" target="_blank" rel="noopener" aria-label="Написать в Telegram">Написать</a>
+
 <footer>
-  <div class="wrap"><span>NIB · Екатеринбург</span><span>© 2026</span></div>
+  <div class="wrap"><span><span class="brand-word">MDA</span> · Екатеринбург</span><span>© 2026</span></div>
 </footer>
 
-<!-- Библиотеки анимаций: anime.js (заголовок) и Motion (появление блоков, кнопки) -->
+<!-- Anime.js для заголовка портфолио, Motion для первого экрана и движения блоков. -->
 <script src="https://cdn.jsdelivr.net/npm/animejs@4.2.2/dist/bundles/anime.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
 <script>
@@ -423,76 +511,173 @@
     if (e.isIntersecting) { e.target.src = e.target.dataset.src; lazy.unobserve(e.target); }
   }), { rootMargin: '400px' });
   frames.forEach(f => lazy.observe(f));
+  // Внутри превью прячем полосу прокрутки сайта — иначе она видна светлой полоской справа на каждой карточке (23.11).
+  document.addEventListener('load', e => {
+    const f = e.target;
+    if (!(f instanceof HTMLIFrameElement) || !f.closest('.shot')) return;
+    try {
+      const s = f.contentDocument.createElement('style');
+      s.textContent = 'html, body { scrollbar-width: none !important; } ::-webkit-scrollbar { display: none !important; }';
+      f.contentDocument.head.append(s);
+    } catch (err) { /* чужой сайт — не трогаем */ }
+  }, true);
+
+  // --- Плавающая кнопка «Написать»: показываем, когда первый экран ушёл вверх, и прячем у «Контактов» ---
+  const floatCta = document.querySelector('.float-cta');
+  let heroVisible = true, contactsVisible = false;
+  const syncFloat = () => floatCta.classList.toggle('show', !heroVisible && !contactsVisible);
+  new IntersectionObserver(([e]) => { heroVisible = e.isIntersecting; syncFloat(); }).observe(document.querySelector('.hero'));
+  new IntersectionObserver(([e]) => { contactsVisible = e.isIntersecting; syncFloat(); }).observe(document.querySelector('#contacts'));
+
+  // --- «Сайт остаётся вашим»: когда список появляется на экране, ползунки по очереди переезжают на «у вас» ---
+  const ownRows = document.querySelectorAll('.own-row');
+  new IntersectionObserver((entries, obs) => {
+    if (!entries[0].isIntersecting) return;
+    ownRows.forEach((row, i) => setTimeout(() => row.classList.add('is-yours'), 500 + i * 450));
+    obs.disconnect();
+  }, { rootMargin: '0px 0px -20% 0px' }).observe(document.querySelector('.own-list'));
+
+  // --- «Как работаем»: линия времени заполняется по мере прокрутки, точки загораются по очереди ---
+  const tlSteps = [...document.querySelectorAll('.steps .step')], tlBox = document.querySelector('.steps');
+  const updateTimeline = () => {
+    // 24.11: считаем от самой линии (а не от верха картинок): линия начинает заполняться, когда появилась внизу экрана,
+    // и заканчивает, когда поднялась почти до шапки — так она заполняется медленно, по ходу чтения.
+    const lineTop = tlSteps[0].querySelector('.step-mark').getBoundingClientRect().top, n = tlSteps.length, wide = innerWidth > 960;
+    const p = Math.min(1, Math.max(0, (innerHeight * .92 - lineTop) / (innerHeight * .75)));
+    tlSteps.forEach((s, i) => {
+      s.style.setProperty('--fill', Math.min(1, Math.max(0, p * n - i)));
+      s.classList.toggle('is-reached', wide ? p * n > i : s.querySelector('.step-mark').getBoundingClientRect().top < innerHeight * .8);
+    });
+  };
+  addEventListener('scroll', updateTimeline, { passive: true });
+  addEventListener('resize', updateTimeline);
+  updateTimeline();
 
   // --- Анимации. Если человек выключил анимации в системе или библиотеки не загрузились — всё просто видно ---
   const calm = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!calm && window.anime && window.Motion) {
+  if (!calm && window.Motion) {
     document.documentElement.classList.add('js-anim');
-    const { animate: aAnimate, stagger } = anime;
-    const { animate, inView, scroll, stagger: mStagger } = Motion;
+    const { animate, inView, scroll, stagger } = Motion;
+
+    // Слова поднимаются по очереди, как в прежнем портфолио, и постепенно становятся резкими.
+    const revealEase = [.25, .65, .3, 1];
+    animate('.hero h1 .w', {
+      opacity: [0, 1], filter: ['blur(12px)', 'blur(0px)'], y: [40, 0]
+    }, { duration: 1.65, delay: stagger(.14, { start: .15 }), ease: revealEase });
+    animate('.hero .fade', {
+      opacity: [0, 1], y: [6, 0]
+    }, { duration: 1.15, delay: stagger(.23, { start: .5 }), ease: revealEase });
 
     // Motion: полоска под шапкой показывает, сколько страницы прочитано
     const bar = document.querySelector('.progress');
     scroll(p => { bar.style.transform = `scaleX(${p})`; });
 
-    // Motion: пока уходим с первого экрана, свечение уезжает вниз и гаснет, а заголовок чуть поднимается
-    const hero = document.querySelector('.hero');
-    const glow = hero.querySelector('.glow');
-    const title = hero.querySelector('h1');
-    scroll(p => {
-      glow.style.transform = `translateY(${p * 160}px) scale(${1 + p * .3})`;
-      glow.style.opacity = 1 - p;
-      title.style.transform = `translateY(${p * -70}px)`;
-    }, { target: hero, offset: ['start start', 'end start'] });
-
     // Motion: две встречные ленты с бесшовным повторением.
     document.querySelectorAll('.works-window').forEach(viewport => {
       const track = viewport.querySelector('.works-track');
       const set = track.querySelector('.works-set');
-      const copy = set.cloneNode(true);
-      copy.setAttribute('aria-hidden', 'true');
-      copy.querySelectorAll('a').forEach(a => a.tabIndex = -1);
-      track.append(copy);
-      copy.querySelectorAll('iframe').forEach(f => {
-        f.style.setProperty('--s', f.parentElement.clientWidth / 1280); lazy.observe(f);
-      });
-      let loop, hovered = false, focused = false, visible = false;
-      const sync = () => { if (loop) (hovered || focused || !visible || document.hidden) ? loop.pause() : loop.play(); };
+      // Дублируем ряд столько раз, чтобы лента без пустот закрывала даже очень широкий экран.
+      const addCopy = () => {
+        const copy = set.cloneNode(true);
+        copy.setAttribute('aria-hidden', 'true');
+        copy.querySelectorAll('a').forEach(a => a.tabIndex = -1);
+        track.append(copy);
+        copy.querySelectorAll('iframe').forEach(f => {
+          f.style.setProperty('--s', f.parentElement.clientWidth / 1280); lazy.observe(f);
+        });
+      };
+      const fill = () => { while (track.children.length < 2 || (track.children.length - 1) * set.offsetWidth < viewport.clientWidth) addCopy(); };
+      fill();
+      let loop, focused = false, visible = false;
+      const sync = () => { if (loop) (focused || !visible || document.hidden) ? loop.pause() : loop.play(); };
       const build = () => {
+        fill();
         const progress = loop ? (loop.time / loop.duration) % 1 : 0;
         if (loop) loop.cancel();
         viewport.scrollLeft = 0; viewport.classList.add('is-running');
         const distance = set.offsetWidth;
         const x = track.dataset.direction === 'right' ? [-distance, 0] : [0, -distance];
-        loop = animate(track, { x }, { duration: distance / 45, ease: 'linear', repeat: Infinity });
+        loop = animate(track, { x }, { duration: distance / 80, ease: 'linear', repeat: Infinity });
         loop.time = progress * loop.duration; sync();
       };
       build();
-      new ResizeObserver(build).observe(set);
+      const resize = new ResizeObserver(build); resize.observe(set); resize.observe(viewport); // пересобираем и при смене ширины окна
       new IntersectionObserver(entries => { visible = entries[0].isIntersecting; sync(); }).observe(viewport);
-      viewport.addEventListener('mouseenter', () => { hovered = true; sync(); });
-      viewport.addEventListener('mouseleave', () => { hovered = false; sync(); });
-      viewport.addEventListener('focusin', () => { focused = true; sync(); });
+      // 23.11: при наведении мышки лента НЕ останавливается (решил Макар).
+      viewport.addEventListener('focusin', e => { focused = e.target.matches(':focus-visible'); sync(); }); // стоп только при навигации с клавиатуры
       viewport.addEventListener('focusout', e => { focused = viewport.contains(e.relatedTarget); sync(); });
       document.addEventListener('visibilitychange', sync);
     });
-    // anime.js: мягкое появление заголовка ленты.
-    inView('#works-title', () => {
-      aAnimate('#works-title', { opacity: [0, 1], translateY: [22, 0], duration: 900, ease: 'outExpo' });
+    // Anime.js: заголовки разделов проявляются по словам — каждое слово поднимается из размытия.
+    if (window.anime) {
+      // Разбиваем текст заголовка на слова, сохраняя курсив <em> и переносы <br>.
+      const splitWords = node => [...node.childNodes].forEach(child => {
+        if (child.nodeType === 3) {
+          const parts = child.textContent.split(/(\s+)/);
+          const frag = document.createDocumentFragment();
+          parts.forEach(part => {
+            if (!part) return;
+            if (/^\s+$/.test(part)) { frag.append(part); return; }
+            const w = document.createElement('span');
+            w.className = 'split-word'; w.textContent = part; frag.append(w);
+          });
+          child.replaceWith(frag);
+        } else if (child.nodeType === 1 && child.tagName !== 'BR') splitWords(child);
+      });
+      document.querySelectorAll('main section:not(.hero) h2').forEach(h2 => {
+        h2.removeAttribute('data-reveal'); // заголовок теперь ведёт Anime.js, а не Motion
+        splitWords(h2);
+        h2.classList.add('split-ready');
+        inView(h2, () => {
+          window.anime.animate(h2.querySelectorAll('.split-word'), {
+            opacity: [0, 1], translateY: ['0.45em', '0em'], filter: ['blur(10px)', 'blur(0px)'],
+            delay: window.anime.stagger(90), duration: 1200, ease: 'outQuart'
+          });
+        }, { margin: '0px 0px -10% 0px' });
+      });
+    }
+
+    // Motion: ответ в «Вопросах» плавно выезжает вниз при открытии и так же плавно уезжает при закрытии.
+    // Без блокировок: новый клик во время анимации просто разворачивает её; таймер-страховка всегда доводит вопрос до нужного состояния.
+    document.querySelectorAll('.faq details').forEach(item => {
+      const question = item.querySelector('summary'), answer = item.querySelector('p');
+      let anim = null, safety = null;
+      const clean = () => { answer.style.height = answer.style.paddingBottom = answer.style.opacity = answer.style.overflow = ''; };
+      const finish = shouldBeOpen => {
+        clearTimeout(safety);
+        const a = anim; anim = null; if (a) a.stop(); // останавливаем, чтобы анимация не дописала стили после очистки
+        item.open = shouldBeOpen; item.classList.remove('closing'); clean(); requestAnimationFrame(clean); // и ещё раз на следующем кадре — на случай, если Motion дописал конечные значения
+      };
+      question.addEventListener('click', e => {
+        e.preventDefault();
+        const opening = !item.open || item.classList.contains('closing');
+        const fromH = item.open ? answer.offsetHeight : 0;
+        if (anim) anim.stop();
+        clearTimeout(safety); clean();
+        item.open = true;
+        const fullH = answer.offsetHeight, pad = getComputedStyle(answer).paddingBottom;
+        answer.style.overflow = 'hidden';
+        if (opening) {
+          item.classList.remove('closing');
+          const a = anim = animate(answer, { height: [fromH, fullH], paddingBottom: [fromH ? pad : '0px', pad], opacity: [fromH ? 1 : 0, 1] }, { duration: .5, ease: [.22, 1, .36, 1] });
+          a.then(() => { if (anim === a) finish(true); }); // учитываем только последнюю анимацию
+          safety = setTimeout(() => finish(true), 800);
+        } else {
+          item.classList.add('closing');
+          const a = anim = animate(answer, { height: [fromH || fullH, 0], paddingBottom: [pad, '0px'], opacity: [1, 0] }, { duration: .38, ease: [.4, 0, .2, 1] });
+          a.then(() => { if (anim === a) finish(false); });
+          safety = setTimeout(() => finish(false), 650);
+        }
+      });
     });
 
-    // anime.js: заголовок появляется по словам, курсивное «зайти» — последним
-    aAnimate('.hero h1 .w', {
-      opacity: [0, 1], translateY: [40, 0],
-      delay: stagger(90, { start: 150 }),
-      duration: 900, ease: 'outExpo'
-    });
-    aAnimate('.hero .fade', { opacity: [0, 1], delay: stagger(120, { start: 650 }), duration: 800, ease: 'outQuad' });
-
-    // Motion: блоки мягко всплывают, когда доходят до экрана
+    // Motion: тексты и блоки мягко всплывают из размытия; соседние — по очереди.
     inView('[data-reveal]', entry => {
       const el = entry.target || entry; // в Motion 11 сюда приходит запись наблюдателя, сам блок — в .target
-      animate(el, { opacity: 1, transform: 'translateY(0px)' }, { duration: .7, ease: [.22, 1, .36, 1] });
+      const siblings = [...el.parentElement.children].filter(n => n.hasAttribute('data-reveal'));
+      const order = Math.min(Math.max(siblings.indexOf(el), 0), 5);
+      animate(el, { opacity: 1, transform: 'translateY(0px)', filter: 'blur(0px)' },
+        { duration: 1, delay: order * .09, ease: [.22, 1, .36, 1] });
     }, { margin: '0px 0px -8% 0px' });
 
     // Motion: главные кнопки слегка тянутся за курсором (только мышь)

@@ -384,6 +384,18 @@ html{background:var(--bg)}
   .kana{height:min(21vh,165px)}
   .caption{font-size:17px;width:94vw}
 }
+@media (min-width:1440px){
+  .ph{width:min(38vw,620px)}
+  .story-photos{gap:clamp(24px,3vw,56px)}
+  .int-track img{width:clamp(340px,25vw,480px)}
+  .aw-grid{max-width:min(88vw,1680px)}
+  .mb-grid{grid-template-columns:repeat(2,minmax(0,min(38vw,700px)))}
+  .mb-photo{aspect-ratio:4/3}
+  .collab-frame{width:min(100%,1060px)}
+  .faq-list{width:min(100%,1120px)}
+  .faq-a p{max-width:80ch}
+  .ct-grid{width:min(100%,1720px)}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   .hero-photo{opacity:1}
