@@ -408,7 +408,7 @@ html{background:var(--bg)}
 
 /* 24.11: плавающая «Забронировать» — только на телефоне (там её нет в шапке).
    Тонкая белая рамка, синий полупрозрачный фон с размытием, без белой заливки.
-   Появляется после первого экрана, прячется у «Контактов» (там своя кнопка) и при открытом меню */
+   Видна сразу с первого экрана, прячется у «Контактов» (там своя кнопка) и при открытом меню */
 .book-float{display:none}
 @media (max-width:720px){
   .book-float{display:flex;align-items:center;justify-content:center;position:fixed;z-index:60;
@@ -1076,14 +1076,13 @@ if (!calm && window.anime && window.Motion) {
   burger.addEventListener('click', () => setOpen(true));
   // шапка: после небольшой прокрутки получает синий фон, чтобы её было видно поверх фото и текста
   const top = document.querySelector('.top');
-  // 24.11: плавающая «Забронировать» на телефоне — видна после 60% первого экрана и до «Контактов»
+  // 24.11: плавающая «Забронировать» на телефоне — видна сразу с первого экрана и до «Контактов» (по просьбе Макара)
   const bookFloat = document.getElementById('bookFloat');
   const heroEl = document.getElementById('hero'), contactsEl = document.getElementById('contacts');
   const onScroll = () => {
     top.classList.toggle('scrolled', scrollY > 40);
-    const pastHero = scrollY > heroEl.offsetHeight * .6;
     const atContacts = contactsEl.getBoundingClientRect().top < innerHeight * .85;
-    bookFloat.classList.toggle('show', pastHero && !atContacts);
+    bookFloat.classList.toggle('show', !atContacts);
   };
   addEventListener('scroll', onScroll, { passive: true }); onScroll();
   drawer.querySelectorAll('[data-close]').forEach(el => el.addEventListener('click', () => setOpen(false)));
